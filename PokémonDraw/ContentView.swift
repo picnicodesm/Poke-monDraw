@@ -8,12 +8,25 @@
 import SwiftUI
 
 struct ContentView: View {
+    let nm = NetworkManager()
+    @State private var text = "Good"
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        VStack(spacing: 30) {
+            Text(text)
+                .padding()
+            
+            Button("fetch") {
+                text = "fetching..."
+                Task {
+                    do {
+                        try await nm.fetchPokemon()
+                        text = "Good"
+                    } catch {
+                        text = "Failed"
+                    }
+                }
+            }
         }
         .padding()
     }
