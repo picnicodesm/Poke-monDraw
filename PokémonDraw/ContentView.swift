@@ -24,6 +24,7 @@ struct ContentView: View {
                         text = "Good"
                     } catch {
                         text = "Failed"
+                        print(error.localizedDescription)
                     }
                 }
             }

@@ -13,6 +13,7 @@
 		04C482D22F339A42005FE905 /* Poke_monDrawApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C482CB2F339A42005FE905 /* Poke_monDrawApp.swift */; };
 		04C482D32F339A42005FE905 /* PokemonDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C482CC2F339A42005FE905 /* PokemonDTO.swift */; };
 		04C482D42F339A42005FE905 /* PokemonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C482CD2F339A42005FE905 /* PokemonModel.swift */; };
+		04C482D62F34A846005FE905 /* PokemonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C482D52F34A846005FE905 /* PokemonType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		04C482CB2F339A42005FE905 /* Poke_monDrawApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poke_monDrawApp.swift; sourceTree = "<group>"; };
 		04C482CC2F339A42005FE905 /* PokemonDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDTO.swift; sourceTree = "<group>"; };
 		04C482CD2F339A42005FE905 /* PokemonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonModel.swift; sourceTree = "<group>"; };
+		04C482D52F34A846005FE905 /* PokemonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				04C482CB2F339A42005FE905 /* Poke_monDrawApp.swift */,
 				04C482CC2F339A42005FE905 /* PokemonDTO.swift */,
 				04C482CD2F339A42005FE905 /* PokemonModel.swift */,
+				04C482D52F34A846005FE905 /* PokemonType.swift */,
 			);
 			path = "PokémonDraw";
 			sourceTree = "<group>";
@@ -140,6 +143,7 @@
 				04C482D02F339A42005FE905 /* ContentView.swift in Sources */,
 				04C482D12F339A42005FE905 /* NetworkManager.swift in Sources */,
 				04C482D22F339A42005FE905 /* Poke_monDrawApp.swift in Sources */,
+				04C482D62F34A846005FE905 /* PokemonType.swift in Sources */,
 				04C482D32F339A42005FE905 /* PokemonDTO.swift in Sources */,
 				04C482D42F339A42005FE905 /* PokemonModel.swift in Sources */,
 			);
@@ -297,7 +301,7 @@
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -330,7 +334,7 @@
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

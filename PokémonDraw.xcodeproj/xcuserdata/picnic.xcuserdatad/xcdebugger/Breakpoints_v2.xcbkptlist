@@ -3,4 +3,126 @@
    uuid = "1B75C1CB-19D8-4F8E-9A17-88B8B3CE9F92"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "487DE3D9-FA0C-40EB-A431-69599DB9802D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Poke&#x301;monDraw/NetworkManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
+            landmarkName = "fetchPokemon()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "487DE3D9-FA0C-40EB-A431-69599DB9802D - 461762eeafbffff3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for Poke&#x301;monDraw.NetworkManager.fetchPokemon() async throws -&gt; ()"
+                  moduleName = "Poke&#x301;monDraw.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/picnic/Documents/Development/PersonalProject/ToyProject/Poke%CC%81monDraw/Poke%CC%81monDraw/NetworkManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "161"
+                  endingLineNumber = "161">
+               </Location>
+               <Location
+                  uuid = "487DE3D9-FA0C-40EB-A431-69599DB9802D - 55f8a9147c160aa0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Poke&#x301;monDraw.PokemonModel, Poke&#x301;monDraw.PokemonModel) -&gt; Swift.Bool in Poke&#x301;monDraw.NetworkManager.fetchPokemon() async throws -&gt; ()"
+                  moduleName = "Poke&#x301;monDraw.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/picnic/Documents/Development/PersonalProject/ToyProject/Poke%CC%81monDraw/Poke%CC%81monDraw/NetworkManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "161"
+                  endingLineNumber = "161">
+               </Location>
+               <Location
+                  uuid = "487DE3D9-FA0C-40EB-A431-69599DB9802D - 7ea8079ce610e9bf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #3 (Poke&#x301;monDraw.PokemonModel) -&gt; Swift.String in Poke&#x301;monDraw.NetworkManager.fetchPokemon() async throws -&gt; ()"
+                  moduleName = "Poke&#x301;monDraw.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/picnic/Documents/Development/PersonalProject/ToyProject/Poke%CC%81monDraw/Poke%CC%81monDraw/NetworkManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "161"
+                  endingLineNumber = "161">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2BB183F7-67DC-4A8D-B201-796F50A29632"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Poke&#x301;monDraw/NetworkManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
+            landmarkName = "fetchPokemon()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "2BB183F7-67DC-4A8D-B201-796F50A29632 - ff72454085b90249"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(7) suspend resume partial function for closure #1 () async throws -&gt; Swift.Array&lt;Poke&#x301;monDraw.PokemonModel&gt; in closure #1 (inout Swift.ThrowingTaskGroup&lt;Swift.Array&lt;Poke&#x301;monDraw.PokemonModel&gt;, Swift.Error&gt;) async throws -&gt; () in Poke&#x301;monDraw.NetworkManager.fetchPokemon() async throws -&gt; ()"
+                  moduleName = "Poke&#x301;monDraw.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/picnic/Documents/Development/PersonalProject/ToyProject/Poke%CC%81monDraw/Poke%CC%81monDraw/NetworkManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "152"
+                  endingLineNumber = "152">
+               </Location>
+               <Location
+                  uuid = "2BB183F7-67DC-4A8D-B201-796F50A29632 - 49e56006f81eae77"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(9) suspend resume partial function for closure #1 () async throws -&gt; Swift.Array&lt;Poke&#x301;monDraw.PokemonModel&gt; in closure #1 (inout Swift.ThrowingTaskGroup&lt;Swift.Array&lt;Poke&#x301;monDraw.PokemonModel&gt;, Swift.Error&gt;) async throws -&gt; () in Poke&#x301;monDraw.NetworkManager.fetchPokemon() async throws -&gt; ()"
+                  moduleName = "Poke&#x301;monDraw.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/picnic/Documents/Development/PersonalProject/ToyProject/Poke%CC%81monDraw/Poke%CC%81monDraw/NetworkManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "152"
+                  endingLineNumber = "152">
+               </Location>
+               <Location
+                  uuid = "2BB183F7-67DC-4A8D-B201-796F50A29632 - 986e57537638b619"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(11) suspend resume partial function for closure #1 () async throws -&gt; Swift.Array&lt;Poke&#x301;monDraw.PokemonModel&gt; in closure #1 (inout Swift.ThrowingTaskGroup&lt;Swift.Array&lt;Poke&#x301;monDraw.PokemonModel&gt;, Swift.Error&gt;) async throws -&gt; () in Poke&#x301;monDraw.NetworkManager.fetchPokemon() async throws -&gt; ()"
+                  moduleName = "Poke&#x301;monDraw.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/picnic/Documents/Development/PersonalProject/ToyProject/Poke%CC%81monDraw/Poke%CC%81monDraw/NetworkManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "152"
+                  endingLineNumber = "152">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
