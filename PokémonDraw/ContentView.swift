@@ -77,6 +77,17 @@ struct ContentView: View {
                 .presentationDetents([.medium, .large]) // 절반 혹은 전체 화면으로 조절 가능
                 .presentationDragIndicator(.visible)
             }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        PokedexView()
+                    } label: {
+                        Image(systemName: "book.closed.fill")
+                            .font(.system(size: 20))
+                            .foregroundStyle(.blue)
+                    }
+                }
+            }
         }
     }
     
@@ -125,7 +136,6 @@ struct ContentView: View {
             .clipShape(RoundedRectangle(cornerRadius: 25))
             .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 10)
         } else {
-            // 대기 화면
             VStack {
                 Image(systemName: "questionmark.circle.fill")
                     .font(.system(size: 80))

@@ -62,7 +62,7 @@ final class MyPokemon {
 }
 
 nonisolated
-struct PokemonModel {
+struct PokemonModel: Identifiable {
     var id: String
  
     var pokedexNumber: Int
