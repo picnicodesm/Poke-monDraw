@@ -65,7 +65,7 @@ struct PokemonModel {
     
     // 2. 이미지 정보
     var defaultSpriteUrl: String
-    var officialArtworkUrl: String?
+    var officialArtworkUrl: String
     
     // 3. 신체 및 성별 정보
     var height: Double // m
@@ -83,7 +83,7 @@ struct PokemonModel {
          koreanName: String,
          classification: String,
          defaultSpriteUrl: String,
-         officialArtworkUrl: String? = nil,
+         officialArtworkUrl: String,
          height: Double,
          weight: Double,
          gender: String,
@@ -110,4 +110,17 @@ extension PokemonModel {
     var printString: String {
         return "id: \(id), name: \(koreanName), 성별: \(gender), height: \(height), weight: \(weight), formName: \(formName), types: \(types)"
     }
+    
+    static let mock = PokemonModel(id: -1,
+                                   koreanName: "mock 포켓몬",
+                                   classification: "분류 없음",
+                                   defaultSpriteUrl: "이미지 url.png",
+                                   officialArtworkUrl: "오피셜 아트워크 url.png",
+                                   height: 10,
+                                   weight: 8,
+                                   gender: "알 수 없음",
+                                   types: ["타입 1", "타입 2"],
+                                   flavorText: "포켓몬 설명",
+                                   formName: "기본 폼"
+    )
 }
