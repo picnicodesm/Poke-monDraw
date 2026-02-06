@@ -17,6 +17,7 @@
 		04C482D82F35D650005FE905 /* PokemonDrawViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C482D72F35D650005FE905 /* PokemonDrawViewModel.swift */; };
 		04C482DA2F35DBD1005FE905 /* StoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C482D92F35DBD1005FE905 /* StoreView.swift */; };
 		04C482DC2F35DCFB005FE905 /* PokemonDetailCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C482DB2F35DCFB005FE905 /* PokemonDetailCard.swift */; };
+		04C482DE2F35F9D0005FE905 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C482DD2F35F9D0005FE905 /* Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		04C482D72F35D650005FE905 /* PokemonDrawViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDrawViewModel.swift; sourceTree = "<group>"; };
 		04C482D92F35DBD1005FE905 /* StoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreView.swift; sourceTree = "<group>"; };
 		04C482DB2F35DCFB005FE905 /* PokemonDetailCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailCard.swift; sourceTree = "<group>"; };
+		04C482DD2F35F9D0005FE905 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 				04C482CA2F339A42005FE905 /* NetworkManager.swift */,
 				04C482CB2F339A42005FE905 /* Poke_monDrawApp.swift */,
 				04C482CC2F339A42005FE905 /* PokemonDTO.swift */,
+				04C482DD2F35F9D0005FE905 /* Extension.swift */,
 				04C482CD2F339A42005FE905 /* PokemonModel.swift */,
 				04C482D52F34A846005FE905 /* PokemonType.swift */,
 			);
@@ -154,6 +157,7 @@
 				04C482DA2F35DBD1005FE905 /* StoreView.swift in Sources */,
 				04C482D22F339A42005FE905 /* Poke_monDrawApp.swift in Sources */,
 				04C482D62F34A846005FE905 /* PokemonType.swift in Sources */,
+				04C482DE2F35F9D0005FE905 /* Extension.swift in Sources */,
 				04C482D82F35D650005FE905 /* PokemonDrawViewModel.swift in Sources */,
 				04C482DC2F35DCFB005FE905 /* PokemonDetailCard.swift in Sources */,
 				04C482D32F339A42005FE905 /* PokemonDTO.swift in Sources */,

@@ -15,7 +15,7 @@ class NetworkManager {
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         
         let randomNumber = Int.random(in: 1...1025)
-        let pokemon = try await fetchPokemon(id: randomNumber)
+        let pokemon = try await fetchPokemon(id: 1008)
         
         return pokemon
     }
@@ -186,8 +186,8 @@ extension NetworkManager {
                                        pokedexNumber: dto.basic.id,
                                        koreanName: dto.species.koreanName,
                                        classification: dto.species.koreanGenera,
-                                       defaultSpriteUrl: dto.basic.defaultSpriteUrl,
-                                       officialArtworkUrl: dto.basic.officialArtworkUrl,
+                                       defaultSpriteUrl: formDto.spriteUrl.isEmpty ? dto.basic.officialArtworkUrl : formDto.spriteUrl,
+                                       officialArtworkUrl: formDto.id == dto.basic.id ? dto.basic.officialArtworkUrl : formDto.spriteUrl.isEmpty ? dto.basic.officialArtworkUrl : formDto.spriteUrl,
                                        height: dto.basic.convertedHeight,
                                        weight: dto.basic.convertedWeight,
                                        gender: dto.species.gender,
@@ -206,15 +206,15 @@ extension NetworkManager {
         var pokemons: [PokemonModel] = []
         
         // 변형일 경우의 정보
-        for (varity, form) in zip(varities, forms) {
+        for (varity, form) in zip(varities.sorted { $0.id < $1.id}, forms.sorted { $0.pokemonId < $1.pokemonId }) { // TODO: 싱크 맞춰야 함
             let uniqueId = "\(basic.id)_\(form.koreanFormName)"
             
             let pokemon = PokemonModel(id: uniqueId,
                                        pokedexNumber: basic.id,
                                        koreanName: varity.name,
                                        classification: species.koreanGenera,
-                                       defaultSpriteUrl: varity.defaultSpriteUrl,
-                                       officialArtworkUrl: varity.officialArtworkUrl,
+                                       defaultSpriteUrl: form.spriteUrl.isEmpty ? basic.defaultSpriteUrl : form.spriteUrl,
+                                       officialArtworkUrl: varity.officialArtworkUrl.isEmpty ? basic.officialArtworkUrl : varity.officialArtworkUrl,
                                        height: varity.convertedHeight,
                                        weight: varity.convertedWeight,
                                        gender: species.gender,
