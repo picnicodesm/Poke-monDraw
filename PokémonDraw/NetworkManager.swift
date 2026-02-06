@@ -178,7 +178,12 @@ extension NetworkManager {
         
         // 메인+폼 별 정보
         for formDto in dto.forms {
-            let pokemon = PokemonModel(id: dto.basic.id,
+            let uniqueId = formDto.koreanFormName.isEmpty
+            ? "\(dto.basic.id)_default"
+            : "\(dto.basic.id)_\(formDto.koreanFormName)"
+            
+            let pokemon = PokemonModel(id: uniqueId,
+                                       pokedexNumber: dto.basic.id,
                                        koreanName: dto.species.koreanName,
                                        classification: dto.species.koreanGenera,
                                        defaultSpriteUrl: dto.basic.defaultSpriteUrl,
@@ -202,7 +207,10 @@ extension NetworkManager {
         
         // 변형일 경우의 정보
         for (varity, form) in zip(varities, forms) {
-            let pokemon = PokemonModel(id: basic.id,
+            let uniqueId = "\(basic.id)_\(form.koreanFormName)"
+            
+            let pokemon = PokemonModel(id: uniqueId,
+                                       pokedexNumber: basic.id,
                                        koreanName: varity.name,
                                        classification: species.koreanGenera,
                                        defaultSpriteUrl: varity.defaultSpriteUrl,

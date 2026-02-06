@@ -10,8 +10,10 @@ import SwiftData
 
 @Model
 final class MyPokemon {
-    // 1. 기본 식별 정보
-    @Attribute(.unique) var id: Int
+    // 1. 기본 식별 정보 (ex. "6_default", "6_mega-x", "351_sunny")
+    @Attribute(.unique) var id: String
+    
+    var pokedexNumber: Int
     var koreanName: String
     var classification: String // 예: 씨앗포켓몬
     
@@ -31,7 +33,8 @@ final class MyPokemon {
     // 5. 멀티 폼 정보 (간단하게 이름과 이미지 URL 쌍으로 저장)
     var formName: String
     
-    init(id: Int,
+    init(id: String,
+         pokedexNumber: Int,
          koreanName: String,
          classification: String,
          defaultSpriteUrl: String,
@@ -44,6 +47,7 @@ final class MyPokemon {
          formName: String
     ) {
         self.id = id
+        self.pokedexNumber = pokedexNumber
         self.koreanName = koreanName
         self.classification = classification
         self.defaultSpriteUrl = defaultSpriteUrl
@@ -59,7 +63,9 @@ final class MyPokemon {
 
 nonisolated
 struct PokemonModel {
-    var id: Int
+    var id: String
+ 
+    var pokedexNumber: Int
     var koreanName: String
     var classification: String // 예: 씨앗포켓몬
     
@@ -79,7 +85,8 @@ struct PokemonModel {
     // 5. 멀티 폼 정보 (간단하게 이름과 이미지 URL 쌍으로 저장)
     var formName: String
     
-    init(id: Int,
+    init(id: String,
+         pokedexNumber: Int,
          koreanName: String,
          classification: String,
          defaultSpriteUrl: String,
@@ -92,6 +99,7 @@ struct PokemonModel {
          formName: String
     ) {
         self.id = id
+        self.pokedexNumber = pokedexNumber
         self.koreanName = koreanName
         self.classification = classification
         self.defaultSpriteUrl = defaultSpriteUrl
@@ -111,16 +119,5 @@ extension PokemonModel {
         return "id: \(id), name: \(koreanName), 성별: \(gender), height: \(height), weight: \(weight), formName: \(formName), types: \(types)"
     }
     
-    static let mock = PokemonModel(id: -1,
-                                   koreanName: "mock 포켓몬",
-                                   classification: "분류 없음",
-                                   defaultSpriteUrl: "이미지 url.png",
-                                   officialArtworkUrl: "오피셜 아트워크 url.png",
-                                   height: 10,
-                                   weight: 8,
-                                   gender: "알 수 없음",
-                                   types: ["타입 1", "타입 2"],
-                                   flavorText: "포켓몬 설명",
-                                   formName: "기본 폼"
-    )
+    static let mock = [PokémonDraw.PokemonModel(id: "6_default", pokedexNumber: 6, koreanName: "리자몽", classification: "화염포켓몬", defaultSpriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png", officialArtworkUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png", height: 1.7, weight: 90.5, gender: "수컷 / 암컷", types: ["불꽃", "비행"], flavorText: "입에서 작렬하는 불꽃을\n토해낼 때 꼬리의 끝이\n더욱 붉고 격렬하게 타오른다.", formName: ""), PokémonDraw.PokemonModel(id: "6_gmax", pokedexNumber: 6, koreanName: "charizard-gmax", classification: "화염포켓몬", defaultSpriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10196.png", officialArtworkUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10196.png", height: 28.0, weight: 1000.0, gender: "수컷 / 암컷", types: ["불꽃", "비행"], flavorText: "입에서 작렬하는 불꽃을\n토해낼 때 꼬리의 끝이\n더욱 붉고 격렬하게 타오른다.", formName: "gmax"), PokémonDraw.PokemonModel(id: "6_메가리자몽Y", pokedexNumber: 6, koreanName: "charizard-mega-x", classification: "화염포켓몬", defaultSpriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10034.png", officialArtworkUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10034.png", height: 1.7, weight: 110.5, gender: "수컷 / 암컷", types: ["불꽃", "드래곤"], flavorText: "입에서 작렬하는 불꽃을\n토해낼 때 꼬리의 끝이\n더욱 붉고 격렬하게 타오른다.", formName: "메가리자몽Y"), PokémonDraw.PokemonModel(id: "6_메가리자몽X", pokedexNumber: 6, koreanName: "charizard-mega-y", classification: "화염포켓몬", defaultSpriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10035.png", officialArtworkUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10035.png", height: 1.7, weight: 100.5, gender: "수컷 / 암컷", types: ["불꽃", "비행"], flavorText: "입에서 작렬하는 불꽃을\n토해낼 때 꼬리의 끝이\n더욱 붉고 격렬하게 타오른다.", formName: "메가리자몽X")]
 }
