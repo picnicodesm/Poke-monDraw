@@ -10,15 +10,15 @@ import Foundation
 
 // MARK: - pokemon/{id}
 struct PokemonBasicDTO: nonisolated Decodable {
-    let id: Int
-    let name: String
-    
     private let species: LinkDTO
     private let forms: [LinkDTO] // 폼 정보의 주소들
     private let height: Int
     private let weight: Int
     private let sprites: SpriteDTO
     private let types: [TypeEntryDTO]
+    
+    let id: Int
+    let name: String
 }
 
 nonisolated
@@ -27,7 +27,7 @@ extension PokemonBasicDTO {
     var formsUrls: [String] { forms.map { $0.url } }
     var defaultSpriteUrl: String { sprites.frontDefault ?? "" }
     var officialArtworkUrl: String { sprites.other?.officialArtwork?.frontDefault ?? "" }
-    var koreanTypes: [String] { types.map { PokemonType(rawValue: $0.type.name)!.koreanType } }
+    var koreanTypes: [String] { types.map { PokemonType(rawValue: $0.type.name)?.koreanType ?? "알 수 없음" } }
     var convertedHeight: Double { Double(height) / 10 }
     var convertedWeight: Double { Double(weight) / 10 }
     
@@ -84,15 +84,15 @@ extension PokemonSpeciesDTO {
     var nonDefaultVarities: [VarietiesDTO] {
         varieties.filter { !$0.isDefault }
     }
-    var gender: Int {
+    var gender: String {
         if genderRate == -1 {
-            return -1
+            return "불명"
         } else if (1...7).contains(genderRate) {
-            return 0
+            return "수컷 / 암컷"
         } else if genderRate == 0 {
-            return 1
+            return "수컷"
         } else {
-            return 2
+            return "암컷"
         }
     }
     

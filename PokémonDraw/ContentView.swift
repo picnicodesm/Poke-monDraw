@@ -20,7 +20,7 @@ struct ContentView: View {
                 text = "fetching..."
                 Task {
                     do {
-                        try await nm.fetchPokemon()
+                        try await nm.fetchAllPokemons()
                         text = "Good"
                     } catch {
                         text = "Failed"

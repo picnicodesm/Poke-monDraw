@@ -70,7 +70,7 @@ struct PokemonModel {
     // 3. 신체 및 성별 정보
     var height: Double // m
     var weight: Double // kg
-    var gender: Int // -1: 없음, 0: 둘 다 가능, 1: 수컷, 2: 암컷
+    var gender: String
     
     // 4. 한국어 텍스트 정보
     var types: [String]
@@ -86,7 +86,7 @@ struct PokemonModel {
          officialArtworkUrl: String? = nil,
          height: Double,
          weight: Double,
-         gender: Int,
+         gender: String,
          types: [String],
          flavorText: String,
          formName: String
