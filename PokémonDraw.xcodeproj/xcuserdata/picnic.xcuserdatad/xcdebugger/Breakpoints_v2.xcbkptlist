@@ -32,7 +32,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "205"
             endingLineNumber = "205"
-            landmarkName = "createModel(basic:species:forms:varities:)"
+            landmarkName = "createModel(basic:species:forms:varieties:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -96,7 +96,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "151"
             endingLineNumber = "151"
-            landmarkName = "fetchVarities(from:decoder:)"
+            landmarkName = "fetchvarieties(from:decoder:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

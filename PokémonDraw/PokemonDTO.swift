@@ -88,7 +88,7 @@ extension PokemonSpeciesDTO {
         return (koFiltered.isEmpty && enFiltered.isEmpty) ? "알 수 없음" : koFiltered.isEmpty ? enFiltered.first!.flavorText : koFiltered.first!.flavorText
     }
     
-    var nonDefaultVarities: [VarietiesDTO] {
+    var nonDefaultVarieties: [VarietiesDTO] {
         varieties.filter { !$0.isDefault }
     }
     

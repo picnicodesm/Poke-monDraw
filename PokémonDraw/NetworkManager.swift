@@ -34,8 +34,8 @@ class NetworkManager {
                 }
             }
             
-            for try await pokemons in group {
-                results += pokemons
+            for try await pokemonArr in group {
+                results += pokemonArr
             }
         }
         
@@ -60,18 +60,18 @@ extension NetworkManager {
         let formDtos = try await self.fetchForms(from: dto.formsUrls, decoder: decoder)
         
         // 4. species의 isDefault가 false인게 있다면 해당 변형에 대해 얻기
-        let varities = speciesDto.nonDefaultVarities
-        let varitiesDtos = try await self.fetchVarities(from: varities, decoder: decoder)
+        let varieties = speciesDto.nonDefaultVarieties
+        let varietiesDtos = try await self.fetchvarieties(from: varieties, decoder: decoder)
         
         // 5. 변형별 폼 정보 얻기
-        let varityFormDtos = try await self.fetchForms(from: varitiesDtos, decoder: decoder)
+        let varityFormDtos = try await self.fetchForms(from: varietiesDtos, decoder: decoder)
         
         // 리턴할 정보
-        var pokemons: [PokemonModel] = []
-        pokemons += self.createModel(with: (dto, speciesDto, formDtos))
-        pokemons += self.createModel(basic: dto, species: speciesDto, forms: varityFormDtos, varities: varitiesDtos)
+        var pokemonArr: [PokemonModel] = []
+        pokemonArr += self.createModel(with: (dto, speciesDto, formDtos))
+        pokemonArr += self.createModel(basic: dto, species: speciesDto, forms: varityFormDtos, varieties: varietiesDtos)
         
-        return pokemons
+        return pokemonArr
     }
     
     @concurrent
@@ -148,13 +148,13 @@ extension NetworkManager {
     }
     
     @concurrent
-    private func fetchVarities(from varities: [PokemonSpeciesDTO.VarietiesDTO], decoder: JSONDecoder) async throws -> [PokemonBasicDTO] {
-        var varitiesDtos: [PokemonBasicDTO] = []
+    private func fetchvarieties(from varieties: [PokemonSpeciesDTO.VarietiesDTO], decoder: JSONDecoder) async throws -> [PokemonBasicDTO] {
+        var varietiesDtos: [PokemonBasicDTO] = []
         
-        guard !varities.isEmpty else { return [] }
+        guard !varieties.isEmpty else { return [] }
         
         try await withThrowingTaskGroup(of: PokemonBasicDTO.self) { group in
-            for varity in varities {
+            for varity in varieties {
                 group.addTask {
                     let pokemonUrl = URL(string: varity.pokemon.url)!
                     
@@ -166,15 +166,15 @@ extension NetworkManager {
             }
             
             for try await pokemonDto in group {
-                varitiesDtos.append(pokemonDto)
+                varietiesDtos.append(pokemonDto)
             }
         }
         
-        return varitiesDtos
+        return varietiesDtos
     }
     
     nonisolated private func createModel(with dto: (basic: PokemonBasicDTO, species: PokemonSpeciesDTO, forms: [FormDTO])) -> [PokemonModel] {
-        var pokemons: [PokemonModel] = []
+        var pokemonArr: [PokemonModel] = []
         
         // 메인+폼 별 정보
         for formDto in dto.forms {
@@ -195,18 +195,18 @@ extension NetworkManager {
                                        flavorText: dto.species.flavorText,
                                        formName: formDto.koreanFormName
             )
-            pokemons.append(pokemon)
+            pokemonArr.append(pokemon)
             
         }
         
-        return pokemons
+        return pokemonArr
     }
     
-    nonisolated private func createModel(basic: PokemonBasicDTO, species: PokemonSpeciesDTO, forms: [FormDTO], varities: [PokemonBasicDTO]) -> [PokemonModel] {
-        var pokemons: [PokemonModel] = []
+    nonisolated private func createModel(basic: PokemonBasicDTO, species: PokemonSpeciesDTO, forms: [FormDTO], varieties: [PokemonBasicDTO]) -> [PokemonModel] {
+        var pokemonArr: [PokemonModel] = []
         
         // 변형일 경우의 정보
-        for (varity, form) in zip(varities.sorted { $0.id < $1.id}, forms.sorted { $0.pokemonId < $1.pokemonId }) { // TODO: 싱크 맞춰야 함
+        for (varity, form) in zip(varieties.sorted { $0.id < $1.id}, forms.sorted { $0.pokemonId < $1.pokemonId }) { // TODO: 싱크 맞춰야 함
             let uniqueId = "\(basic.id)_\(form.koreanFormName)"
             
             let pokemon = PokemonModel(id: uniqueId,
@@ -222,9 +222,9 @@ extension NetworkManager {
                                        flavorText: species.flavorText,
                                        formName: form.koreanFormName
             )
-            pokemons.append(pokemon)
+            pokemonArr.append(pokemon)
         }
         
-        return pokemons
+        return pokemonArr
     }
 }
