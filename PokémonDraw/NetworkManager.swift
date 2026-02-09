@@ -15,7 +15,7 @@ class NetworkManager {
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         
         let randomNumber = Int.random(in: 1...1025)
-        let pokemon = try await fetchPokemon(id: 1008)
+        let pokemon = try await fetchPokemon(id: randomNumber)
         
         return pokemon
     }

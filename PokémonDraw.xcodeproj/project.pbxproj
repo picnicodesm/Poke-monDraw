@@ -70,12 +70,12 @@
 			isa = PBXGroup;
 			children = (
 				04C482C82F339A42005FE905 /* Assets.xcassets */,
+				04C482CB2F339A42005FE905 /* Poke_monDrawApp.swift */,
 				04C482C92F339A42005FE905 /* ContentView.swift */,
 				04C482DB2F35DCFB005FE905 /* PokemonDetailCard.swift */,
 				04C482D92F35DBD1005FE905 /* StoreView.swift */,
 				04C482D72F35D650005FE905 /* PokemonDrawViewModel.swift */,
 				04C482CA2F339A42005FE905 /* NetworkManager.swift */,
-				04C482CB2F339A42005FE905 /* Poke_monDrawApp.swift */,
 				04C482CC2F339A42005FE905 /* PokemonDTO.swift */,
 				04C482DF2F3608A5005FE905 /* PokedexViewModel.swift */,
 				04C482E12F36095A005FE905 /* PokedexView.swift */,

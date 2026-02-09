@@ -6,15 +6,18 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
+    @Environment(\.modelContext) private var modelContext
     @State private var viewModel = PokemonDrawViewModel()
     @State private var isFetching = false
-    @State private var showDetailModal = false // 모달 표시 여부
+    @State private var showDetailModal = false
+    @State private var isSaved = false
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 30) {
+            VStack(spacing: 10) {
                 Spacer()
                 
                 // 메인 카드 영역
@@ -52,29 +55,38 @@ struct ContentView: View {
                 }
                 .disabled(isFetching)
                 
-                Button {
-                    print(viewModel.pokemon)
-                } label: {
-                    Text("결과 콘솔에서 보기")
+                if !viewModel.pokemon.isEmpty {
+                    Button {
+                        savePokemon()
+                    } label: {
+                        HStack {
+                            Image(systemName: isSaved ? "checkmark.circle.fill" : "square.and.arrow.down.fill")
+                            Text(isSaved ? "저장 완료" : "보관함에 저장하기")
+                        }
+                        .font(.headline)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(isSaved ? .gray : .green) // 저장되면 회색, 아니면 초록색
+                        .cornerRadius(15)
+                    }
+                    .disabled(isSaved) // 저장 후 비활성화
                 }
             }
             .padding()
             .navigationTitle("포켓몬 뽑기 🏀")
-            // ✨ 상세 정보 모달 (Sheet)
             .sheet(isPresented: $showDetailModal) {
-                // 상단에 닫기 버튼 등을 넣기 위해 NavigationView 사용 가능
                 VStack {
-                    // ✨ 페이징 뷰 구현
                     TabView {
                         ForEach(viewModel.pokemon, id: \.id) { pokemon in
                             PokemonDetailCard(pokemon: pokemon)
-                            // 탭뷰 페이징 시 태그 필요할 수 있음 (선택 구현)
                         }
                     }
-                    .tabViewStyle(.page(indexDisplayMode: .always)) // 페이지 인디케이터 표시
+                    .tabViewStyle(.page(indexDisplayMode: .always))
                     .indexViewStyle(.page(backgroundDisplayMode: .always))
                 }
-                .presentationDetents([.medium, .large]) // 절반 혹은 전체 화면으로 조절 가능
+                .presentationDetents([.medium, .large])
                 .presentationDragIndicator(.visible)
             }
             .toolbar {
@@ -87,16 +99,24 @@ struct ContentView: View {
                             .foregroundStyle(.blue)
                     }
                 }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        StoreView()
+                    } label: {
+                        Image(systemName: "archivebox.circle.fill")
+                            .font(.system(size: 20))
+                            .foregroundStyle(.blue)
+                    }
+                }
             }
         }
     }
     
-    // 메인 화면에 보여줄 심플한 카드 뷰 (ViewBuilder 활용)
     @ViewBuilder
     var mainCardView: some View {
         if let mainPokemon = viewModel.pokemon.first {
             VStack(spacing: 20) {
-                // 메인 이미지 (스프라이트)
                 AsyncImage(url: URL(string: mainPokemon.defaultSpriteUrl)) { image in
                     image.resizable()
                 } placeholder: {
@@ -150,6 +170,18 @@ struct ContentView: View {
             .background(Color.gray.opacity(0.3))
             .clipShape(RoundedRectangle(cornerRadius: 25))
         }
+    }
+    
+    private func savePokemon() {
+        for pokemon in viewModel.pokemon {
+            let myPokemon = MyPokemon(from: pokemon)
+            modelContext.insert(myPokemon)
+        }
+        
+        withAnimation {
+            isSaved = true
+        }
+        print("포켓몬 저장 완료")
     }
 }
 

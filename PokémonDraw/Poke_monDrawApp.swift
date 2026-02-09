@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct Poke_monDrawApp: App {
@@ -13,5 +14,6 @@ struct Poke_monDrawApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: MyPokemon.self)
     }
 }

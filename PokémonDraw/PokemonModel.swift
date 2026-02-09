@@ -24,7 +24,7 @@ final class MyPokemon {
     // 3. 신체 및 성별 정보
     var height: Double // m
     var weight: Double // kg
-    var gender: Int // -1: 없음, 0: 둘 다 가능, 1: 수컷, 2: 암컷
+    var gender: String
     
     // 4. 한국어 텍스트 정보
     var types: [String]
@@ -41,7 +41,7 @@ final class MyPokemon {
          officialArtworkUrl: String,
          height: Double,
          weight: Double,
-         gender: Int,
+         gender: String,
          types: [String],
          flavorText: String,
          formName: String
@@ -59,12 +59,46 @@ final class MyPokemon {
         self.flavorText = flavorText
         self.formName = formName
     }
+    
+    convenience init(from model: PokemonModel) {
+        self.init(
+            id: model.id,
+            pokedexNumber: model.pokedexNumber,
+            koreanName: model.koreanName,
+            classification: model.classification,
+            defaultSpriteUrl: model.defaultSpriteUrl,
+            officialArtworkUrl: model.officialArtworkUrl,
+            height: model.height,
+            weight: model.weight,
+            gender: model.gender,
+            types: model.types,
+            flavorText: model.flavorText,
+            formName: model.formName
+        )
+    }
+    
+    var toStruct: PokemonModel {
+        return PokemonModel(
+            id: id,
+            pokedexNumber: pokedexNumber,
+            koreanName: koreanName,
+            classification: classification,
+            defaultSpriteUrl: defaultSpriteUrl,
+            officialArtworkUrl: officialArtworkUrl,
+            height: height,
+            weight: weight,
+            gender: gender,
+            types: types,
+            flavorText: flavorText,
+            formName: formName
+        )
+    }
 }
 
 nonisolated
 struct PokemonModel: Identifiable {
     var id: String
- 
+    
     var pokedexNumber: Int
     var koreanName: String
     var classification: String // 예: 씨앗포켓몬
@@ -111,6 +145,9 @@ struct PokemonModel: Identifiable {
         self.flavorText = flavorText
         self.formName = formName
     }
+    
+    
+    
 }
 
 nonisolated
