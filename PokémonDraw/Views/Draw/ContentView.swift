@@ -34,9 +34,8 @@ struct ContentView: View {
                 Button {
                     Task {
                         isFetching = true
+                        isSaved = false
                         do {
-                            // fetchRandomPokemon이 [PokemonModel]을 반환하거나
-                            // viewModel.pokemon을 업데이트한다고 가정
                             try await viewModel.fetchRandomPokemon()
                         } catch {
                             print("Error: \(error)")
@@ -68,7 +67,7 @@ struct ContentView: View {
                         .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(isSaved ? .gray : .green) // 저장되면 회색, 아니면 초록색
+                        .background(isSaved ? .gray : .green)
                         .cornerRadius(15)
                     }
                     .disabled(isSaved) // 저장 후 비활성화

@@ -54,14 +54,14 @@ extension NetworkManager {
         let dto = try await self.fetchPokemon(for: id, decoder: decoder)
         
         // 2. species url에서 PokemonSpeciesDTO 얻기
-        let speciesDto = try await self.fetchPokemonSpecies(from: dto.speciesUrl, decoder: decoder)
+        let speciesDto = try await self.fetchPokemonSpecies(from: dto.species.url, decoder: decoder)
         
         // 3. 폼에 대한 정보 얻기
-        let formDtos = try await self.fetchForms(from: dto.formsUrls, decoder: decoder)
+        let formDtos = try await self.fetchForms(from: dto.forms.map { $0.url }, decoder: decoder)
         
         // 4. species의 isDefault가 false인게 있다면 해당 변형에 대해 얻기
-        let varieties = speciesDto.nonDefaultVarieties
-        let varietiesDtos = try await self.fetchVarieties(from: varieties, decoder: decoder)
+        let nonDefaultVarieties = speciesDto.varieties.filter { !$0.isDefault }
+        let varietiesDtos = try await self.fetchVarieties(from: nonDefaultVarieties, decoder: decoder)
         
         // 5. 변형별 폼 정보 얻기
         let varityFormDtos = try await self.fetchForms(from: varietiesDtos, decoder: decoder)
@@ -127,7 +127,7 @@ extension NetworkManager {
         
         try await withThrowingTaskGroup(of: FormDTO.self) { group in
             for dto in dtos {
-                guard let formUrlString = dto.formsUrls.first else { continue }
+                guard let formUrlString = dto.forms.map({ $0.url }).first else { continue }
                 
                 group.addTask {
                     let formUrl = URL(string: formUrlString)!
@@ -178,23 +178,7 @@ extension NetworkManager {
         
         // 메인+폼 별 정보
         for formDto in dto.forms {
-            let uniqueId = formDto.koreanFormName.isEmpty
-            ? "\(dto.basic.id)_default"
-            : "\(dto.basic.id)_\(formDto.koreanFormName)"
-            
-            let pokemon = PokemonModel(id: uniqueId,
-                                       pokedexNumber: dto.basic.id,
-                                       koreanName: dto.species.koreanName,
-                                       classification: dto.species.koreanGenera,
-                                       defaultSpriteUrl: formDto.spriteUrl.isEmpty ? dto.basic.officialArtworkUrl : formDto.spriteUrl,
-                                       officialArtworkUrl: formDto.id == dto.basic.id ? dto.basic.officialArtworkUrl : formDto.spriteUrl.isEmpty ? dto.basic.officialArtworkUrl : formDto.spriteUrl,
-                                       height: dto.basic.convertedHeight,
-                                       weight: dto.basic.convertedWeight,
-                                       gender: dto.species.gender,
-                                       types: dto.basic.koreanTypes,
-                                       flavorText: dto.species.flavorText,
-                                       formName: formDto.koreanFormName
-            )
+            let pokemon = PokemonModel(basic: dto.basic, species: dto.species, form: formDto)
             pokemonArr.append(pokemon)
             
         }
@@ -206,21 +190,8 @@ extension NetworkManager {
         var pokemonArr: [PokemonModel] = []
         
         // 변형일 경우의 정보
-        for (varity, form) in zip(varieties.sorted { $0.id < $1.id}, forms.sorted { $0.pokemonId < $1.pokemonId }) { // TODO: 싱크 맞춰야 함
-            let uniqueId = "\(basic.id)_\(form.koreanFormName)"
-            
-            let pokemon = PokemonModel(id: uniqueId,
-                                       pokedexNumber: basic.id,
-                                       koreanName: varity.name,
-                                       classification: species.koreanGenera,
-                                       defaultSpriteUrl: form.spriteUrl.isEmpty ? basic.defaultSpriteUrl : form.spriteUrl,
-                                       officialArtworkUrl: varity.officialArtworkUrl.isEmpty ? basic.officialArtworkUrl : varity.officialArtworkUrl,
-                                       height: varity.convertedHeight,
-                                       weight: varity.convertedWeight,
-                                       gender: species.gender,
-                                       types: varity.koreanTypes,
-                                       flavorText: species.flavorText,
-                                       formName: form.koreanFormName
+        for (varity, form) in zip(varieties.sorted { $0.id < $1.id}, forms.sorted { $0.pokemon.url.extractId! < $1.pokemon.url.extractId! }) {
+            let pokemon = PokemonModel(basic: basic, species: species, form: form, varity: varity
             )
             pokemonArr.append(pokemon)
         }

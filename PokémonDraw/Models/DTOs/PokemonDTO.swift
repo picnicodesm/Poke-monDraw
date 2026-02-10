@@ -11,12 +11,12 @@ import Foundation
 // MARK: - pokemon/{id}
 struct PokemonBasicDTO: nonisolated Decodable {
     
-    private let species: LinkDTO
-    private let forms: [LinkDTO] // 폼 정보의 주소들
-    private let height: Int
-    private let weight: Int
-    private let sprites: SpriteDTO
-    private let types: [TypeEntryDTO]
+    let species: LinkDTO
+    let forms: [LinkDTO] // 폼 정보의 주소들
+    let height: Int
+    let weight: Int
+    let sprites: SpriteDTO
+    let types: [TypeEntryDTO]
     
     let id: Int
     let name: String
@@ -25,25 +25,25 @@ struct PokemonBasicDTO: nonisolated Decodable {
 nonisolated
 extension PokemonBasicDTO {
     
-    var speciesUrl: String { species.url }
-    var formsUrls: [String] { forms.map { $0.url } }
-    var defaultSpriteUrl: String { sprites.frontDefault ?? "" }
-    var officialArtworkUrl: String { sprites.other?.officialArtwork?.frontDefault ?? "" }
-    var koreanTypes: [String] { types.map { PokemonType(rawValue: $0.type.name)?.koreanType ?? "알 수 없음" } }
-    var convertedHeight: Double { Double(height) / 10 }
-    var convertedWeight: Double { Double(weight) / 10 }
+//    var speciesUrl: String { species.url }
+//    var formsUrls: [String] { forms.map { $0.url } }
+//    var defaultSpriteUrl: String { sprites.frontDefault ?? "" }
+//    var officialArtworkUrl: String { sprites.other?.officialArtwork?.frontDefault ?? "" }
+//    var koreanTypes: [String] { types.map { PokemonType(rawValue: $0.type.name)?.koreanType ?? "알 수 없음" } }
+//    var convertedHeight: Double { Double(height) / 10 }
+//    var convertedWeight: Double { Double(weight) / 10 }
     
-    private struct SpriteDTO: Decodable {
+     struct SpriteDTO: Decodable {
         let frontDefault: String?
         let other: OtherDTO?
     }
     
-    private struct TypeEntryDTO: Decodable {
+     struct TypeEntryDTO: Decodable {
         let slot: Int
         let type: LinkDTO
     }
     
-    private struct OtherDTO: Decodable {
+     struct OtherDTO: Decodable {
         let officialArtwork: ArtworkDTO?
         
         enum CodingKeys: String, CodingKey {
@@ -51,7 +51,7 @@ extension PokemonBasicDTO {
         }
     }
 
-    private struct ArtworkDTO: Decodable {
+     struct ArtworkDTO: Decodable {
         let frontDefault: String?
     }
 }
@@ -59,57 +59,57 @@ extension PokemonBasicDTO {
 // MARK: - pokemon-species/{id}
 struct PokemonSpeciesDTO: nonisolated Decodable {
     
-    private let name: String
-    private let names: [NameDTO]
-    private let genera: [GenusDTO] // "classification" in Model
-    private let flavorTextEntries: [FlavorTextDTO] // 한국어 설명 위치
-    private let varieties: [VarietiesDTO]
-    private let genderRate: Int // 1~7: both, 8: 암컷, 0: 수컷, -1: 성별 없음
+    let name: String
+    let names: [NameDTO]
+    let genera: [GenusDTO] // "classification" in Model
+    let flavorTextEntries: [FlavorTextDTO] // 한국어 설명 위치
+    let varieties: [VarietiesDTO]
+    let genderRate: Int // 1~7: both, 8: 암컷, 0: 수컷, -1: 성별 없음
 }
 
 nonisolated
 extension PokemonSpeciesDTO {
     
-    var koreanName: String {
-        names.filter { $0.language.name == "ko" }.first?.name ?? name
-    }
+//    var koreanName: String {
+//        names.filter { $0.language.name == "ko" }.first?.name ?? name
+//    }
+//    
+//    var koreanGenera: String {
+//        let koFiltered = genera.filter { $0.language.name == "ko" }
+//        let enFiltered = genera.filter { $0.language.name == "en" }
+//        
+//        return (koFiltered.isEmpty && enFiltered.isEmpty) ? "알 수 없음" : koFiltered.isEmpty ? enFiltered.first!.genus : koFiltered.first!.genus
+//    }
+//    
+//    var flavorText: String {
+//        let koFiltered = flavorTextEntries.filter { $0.language.name == "ko" }
+//        let enFiltered = flavorTextEntries.filter { $0.language.name == "en" }
+//        
+//        return (koFiltered.isEmpty && enFiltered.isEmpty) ? "알 수 없음" : koFiltered.isEmpty ? enFiltered.first!.flavorText : koFiltered.first!.flavorText
+//    }
+//    
+//    var nonDefaultVarieties: [VarietiesDTO] {
+//        varieties.filter { !$0.isDefault }
+//    }
+//    
+//    var gender: String {
+//        if genderRate == -1 {
+//            return "불명"
+//        } else if (1...7).contains(genderRate) {
+//            return "수컷 / 암컷"
+//        } else if genderRate == 0 {
+//            return "수컷"
+//        } else {
+//            return "암컷"
+//        }
+//    }
     
-    var koreanGenera: String {
-        let koFiltered = genera.filter { $0.language.name == "ko" }
-        let enFiltered = genera.filter { $0.language.name == "en" }
-        
-        return (koFiltered.isEmpty && enFiltered.isEmpty) ? "알 수 없음" : koFiltered.isEmpty ? enFiltered.first!.genus : koFiltered.first!.genus
-    }
-    
-    var flavorText: String {
-        let koFiltered = flavorTextEntries.filter { $0.language.name == "ko" }
-        let enFiltered = flavorTextEntries.filter { $0.language.name == "en" }
-        
-        return (koFiltered.isEmpty && enFiltered.isEmpty) ? "알 수 없음" : koFiltered.isEmpty ? enFiltered.first!.flavorText : koFiltered.first!.flavorText
-    }
-    
-    var nonDefaultVarieties: [VarietiesDTO] {
-        varieties.filter { !$0.isDefault }
-    }
-    
-    var gender: String {
-        if genderRate == -1 {
-            return "불명"
-        } else if (1...7).contains(genderRate) {
-            return "수컷 / 암컷"
-        } else if genderRate == 0 {
-            return "수컷"
-        } else {
-            return "암컷"
-        }
-    }
-    
-    private struct GenusDTO: Decodable {
+    struct GenusDTO: Decodable {
         let genus: String
         let language: LinkDTO
     }
     
-    private struct FlavorTextDTO: Decodable {
+    struct FlavorTextDTO: Decodable {
         let flavorText: String
         let language: LinkDTO
     }
@@ -124,28 +124,28 @@ extension PokemonSpeciesDTO {
 struct FormDTO: nonisolated Decodable {
     
     let id: Int
-    private let pokemon: LinkDTO
-    private let formName: String
-    private let formNames: [NameDTO]
-    private let sprites: SpritesDTO?
+    let pokemon: LinkDTO
+    let formName: String
+    let formNames: [NameDTO]
+    let sprites: SpritesDTO?
 }
 
 nonisolated
 extension FormDTO {
-    var koreanFormName: String {
-        let filtered = formNames.filter { $0.language.name == "ko" }
-        return filtered.isEmpty ? formName : filtered.first!.name
-    }
+//    var koreanFormName: String {
+//        let filtered = formNames.filter { $0.language.name == "ko" }
+//        return filtered.isEmpty ? formName : filtered.first!.name
+//    }
+//    
+//    var spriteUrl: String {
+//        sprites?.frontDefault ?? ""
+//    }
+//    
+//    var pokemonId: Int {
+//        return pokemon.url.extractId!
+//    }
     
-    var spriteUrl: String {
-        sprites?.frontDefault ?? ""
-    }
-    
-    var pokemonId: Int {
-        return pokemon.url.extractId!
-    }
-    
-    private struct SpritesDTO: Decodable {
+    struct SpritesDTO: Decodable {
         let frontDefault: String?
     }
 }
