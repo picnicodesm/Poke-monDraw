@@ -17,5 +17,4 @@ class PokemonDrawViewModel {
             pokemon =  try await networkManager.fetchRandomPokemon()
         }
     }
-    
 }

@@ -61,7 +61,7 @@ extension NetworkManager {
         
         // 4. species의 isDefault가 false인게 있다면 해당 변형에 대해 얻기
         let varieties = speciesDto.nonDefaultVarieties
-        let varietiesDtos = try await self.fetchvarieties(from: varieties, decoder: decoder)
+        let varietiesDtos = try await self.fetchVarieties(from: varieties, decoder: decoder)
         
         // 5. 변형별 폼 정보 얻기
         let varityFormDtos = try await self.fetchForms(from: varietiesDtos, decoder: decoder)
@@ -148,7 +148,7 @@ extension NetworkManager {
     }
     
     @concurrent
-    private func fetchvarieties(from varieties: [PokemonSpeciesDTO.VarietiesDTO], decoder: JSONDecoder) async throws -> [PokemonBasicDTO] {
+    private func fetchVarieties(from varieties: [PokemonSpeciesDTO.VarietiesDTO], decoder: JSONDecoder) async throws -> [PokemonBasicDTO] {
         var varietiesDtos: [PokemonBasicDTO] = []
         
         guard !varieties.isEmpty else { return [] }

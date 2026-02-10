@@ -20,6 +20,7 @@
 		04C482DE2F35F9D0005FE905 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C482DD2F35F9D0005FE905 /* Extension.swift */; };
 		04C482E02F3608A5005FE905 /* PokedexViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C482DF2F3608A5005FE905 /* PokedexViewModel.swift */; };
 		04C482E22F36095A005FE905 /* PokedexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C482E12F36095A005FE905 /* PokedexView.swift */; };
+		04C482F12F3B045D005FE905 /* MyPokemonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C482F02F3B045D005FE905 /* MyPokemonModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		04C482DD2F35F9D0005FE905 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		04C482DF2F3608A5005FE905 /* PokedexViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexViewModel.swift; sourceTree = "<group>"; };
 		04C482E12F36095A005FE905 /* PokedexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexView.swift; sourceTree = "<group>"; };
+		04C482F02F3B045D005FE905 /* MyPokemonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPokemonModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,20 +72,125 @@
 			isa = PBXGroup;
 			children = (
 				04C482C82F339A42005FE905 /* Assets.xcassets */,
-				04C482CB2F339A42005FE905 /* Poke_monDrawApp.swift */,
-				04C482C92F339A42005FE905 /* ContentView.swift */,
-				04C482DB2F35DCFB005FE905 /* PokemonDetailCard.swift */,
-				04C482D92F35DBD1005FE905 /* StoreView.swift */,
-				04C482D72F35D650005FE905 /* PokemonDrawViewModel.swift */,
-				04C482CA2F339A42005FE905 /* NetworkManager.swift */,
-				04C482CC2F339A42005FE905 /* PokemonDTO.swift */,
-				04C482DF2F3608A5005FE905 /* PokedexViewModel.swift */,
-				04C482E12F36095A005FE905 /* PokedexView.swift */,
-				04C482DD2F35F9D0005FE905 /* Extension.swift */,
+				04C482EE2F3B0417005FE905 /* App */,
+				04C482ED2F3B040D005FE905 /* Models */,
+				04C482E72F3B0399005FE905 /* Views */,
+				04C482E52F3B037D005FE905 /* ViewModels */,
+				04C482E62F3B0388005FE905 /* Services */,
+				04C482EC2F3B03FE005FE905 /* Utilities */,
+			);
+			path = "PokémonDraw";
+			sourceTree = "<group>";
+		};
+		04C482E32F3B0363005FE905 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
 				04C482CD2F339A42005FE905 /* PokemonModel.swift */,
 				04C482D52F34A846005FE905 /* PokemonType.swift */,
 			);
-			path = "PokémonDraw";
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		04C482E42F3B036D005FE905 /* DTOs */ = {
+			isa = PBXGroup;
+			children = (
+				04C482CC2F339A42005FE905 /* PokemonDTO.swift */,
+			);
+			path = DTOs;
+			sourceTree = "<group>";
+		};
+		04C482E52F3B037D005FE905 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				04C482D72F35D650005FE905 /* PokemonDrawViewModel.swift */,
+				04C482DF2F3608A5005FE905 /* PokedexViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		04C482E62F3B0388005FE905 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				04C482CA2F339A42005FE905 /* NetworkManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		04C482E72F3B0399005FE905 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				04C482E92F3B03BB005FE905 /* Draw */,
+				04C482EA2F3B03C3005FE905 /* Store */,
+				04C482EB2F3B03CE005FE905 /* Pokedex */,
+				04C482E82F3B03AD005FE905 /* Components */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		04C482E82F3B03AD005FE905 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				04C482DB2F35DCFB005FE905 /* PokemonDetailCard.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		04C482E92F3B03BB005FE905 /* Draw */ = {
+			isa = PBXGroup;
+			children = (
+				04C482C92F339A42005FE905 /* ContentView.swift */,
+			);
+			path = Draw;
+			sourceTree = "<group>";
+		};
+		04C482EA2F3B03C3005FE905 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				04C482D92F35DBD1005FE905 /* StoreView.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
+		04C482EB2F3B03CE005FE905 /* Pokedex */ = {
+			isa = PBXGroup;
+			children = (
+				04C482E12F36095A005FE905 /* PokedexView.swift */,
+			);
+			path = Pokedex;
+			sourceTree = "<group>";
+		};
+		04C482EC2F3B03FE005FE905 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				04C482DD2F35F9D0005FE905 /* Extension.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		04C482ED2F3B040D005FE905 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				04C482EF2F3B0441005FE905 /* Persistence */,
+				04C482E32F3B0363005FE905 /* Entities */,
+				04C482E42F3B036D005FE905 /* DTOs */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		04C482EE2F3B0417005FE905 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				04C482CB2F339A42005FE905 /* Poke_monDrawApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		04C482EF2F3B0441005FE905 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				04C482F02F3B045D005FE905 /* MyPokemonModel.swift */,
+			);
+			path = Persistence;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -160,6 +267,7 @@
 			files = (
 				04C482D02F339A42005FE905 /* ContentView.swift in Sources */,
 				04C482D12F339A42005FE905 /* NetworkManager.swift in Sources */,
+				04C482F12F3B045D005FE905 /* MyPokemonModel.swift in Sources */,
 				04C482DA2F35DBD1005FE905 /* StoreView.swift in Sources */,
 				04C482E22F36095A005FE905 /* PokedexView.swift in Sources */,
 				04C482D22F339A42005FE905 /* Poke_monDrawApp.swift in Sources */,
