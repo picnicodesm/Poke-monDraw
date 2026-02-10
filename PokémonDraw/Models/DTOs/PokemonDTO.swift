@@ -11,6 +11,8 @@ import Foundation
 // MARK: - pokemon/{id}
 struct PokemonBasicDTO: nonisolated Decodable {
     
+    let id: Int
+    let name: String
     let species: LinkDTO
     let forms: [LinkDTO] // 폼 정보의 주소들
     let height: Int
@@ -18,40 +20,25 @@ struct PokemonBasicDTO: nonisolated Decodable {
     let sprites: SpriteDTO
     let types: [TypeEntryDTO]
     
-    let id: Int
-    let name: String
-}
-
-nonisolated
-extension PokemonBasicDTO {
-    
-//    var speciesUrl: String { species.url }
-//    var formsUrls: [String] { forms.map { $0.url } }
-//    var defaultSpriteUrl: String { sprites.frontDefault ?? "" }
-//    var officialArtworkUrl: String { sprites.other?.officialArtwork?.frontDefault ?? "" }
-//    var koreanTypes: [String] { types.map { PokemonType(rawValue: $0.type.name)?.koreanType ?? "알 수 없음" } }
-//    var convertedHeight: Double { Double(height) / 10 }
-//    var convertedWeight: Double { Double(weight) / 10 }
-    
-     struct SpriteDTO: Decodable {
+    struct SpriteDTO: Decodable {
         let frontDefault: String?
         let other: OtherDTO?
     }
     
-     struct TypeEntryDTO: Decodable {
+    struct TypeEntryDTO: Decodable {
         let slot: Int
         let type: LinkDTO
     }
     
-     struct OtherDTO: Decodable {
+    struct OtherDTO: Decodable {
         let officialArtwork: ArtworkDTO?
         
         enum CodingKeys: String, CodingKey {
             case officialArtwork = "official-artwork"
         }
     }
-
-     struct ArtworkDTO: Decodable {
+    
+    struct ArtworkDTO: Decodable {
         let frontDefault: String?
     }
 }
@@ -65,44 +52,6 @@ struct PokemonSpeciesDTO: nonisolated Decodable {
     let flavorTextEntries: [FlavorTextDTO] // 한국어 설명 위치
     let varieties: [VarietiesDTO]
     let genderRate: Int // 1~7: both, 8: 암컷, 0: 수컷, -1: 성별 없음
-}
-
-nonisolated
-extension PokemonSpeciesDTO {
-    
-//    var koreanName: String {
-//        names.filter { $0.language.name == "ko" }.first?.name ?? name
-//    }
-//    
-//    var koreanGenera: String {
-//        let koFiltered = genera.filter { $0.language.name == "ko" }
-//        let enFiltered = genera.filter { $0.language.name == "en" }
-//        
-//        return (koFiltered.isEmpty && enFiltered.isEmpty) ? "알 수 없음" : koFiltered.isEmpty ? enFiltered.first!.genus : koFiltered.first!.genus
-//    }
-//    
-//    var flavorText: String {
-//        let koFiltered = flavorTextEntries.filter { $0.language.name == "ko" }
-//        let enFiltered = flavorTextEntries.filter { $0.language.name == "en" }
-//        
-//        return (koFiltered.isEmpty && enFiltered.isEmpty) ? "알 수 없음" : koFiltered.isEmpty ? enFiltered.first!.flavorText : koFiltered.first!.flavorText
-//    }
-//    
-//    var nonDefaultVarieties: [VarietiesDTO] {
-//        varieties.filter { !$0.isDefault }
-//    }
-//    
-//    var gender: String {
-//        if genderRate == -1 {
-//            return "불명"
-//        } else if (1...7).contains(genderRate) {
-//            return "수컷 / 암컷"
-//        } else if genderRate == 0 {
-//            return "수컷"
-//        } else {
-//            return "암컷"
-//        }
-//    }
     
     struct GenusDTO: Decodable {
         let genus: String
@@ -128,22 +77,6 @@ struct FormDTO: nonisolated Decodable {
     let formName: String
     let formNames: [NameDTO]
     let sprites: SpritesDTO?
-}
-
-nonisolated
-extension FormDTO {
-//    var koreanFormName: String {
-//        let filtered = formNames.filter { $0.language.name == "ko" }
-//        return filtered.isEmpty ? formName : filtered.first!.name
-//    }
-//    
-//    var spriteUrl: String {
-//        sprites?.frontDefault ?? ""
-//    }
-//    
-//    var pokemonId: Int {
-//        return pokemon.url.extractId!
-//    }
     
     struct SpritesDTO: Decodable {
         let frontDefault: String?

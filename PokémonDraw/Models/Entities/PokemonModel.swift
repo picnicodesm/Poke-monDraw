@@ -63,7 +63,7 @@ struct PokemonModel: Identifiable {
         let filteredFormNames = form.formNames.filter { $0.language.name == "ko" }
         let koreanFormName = filteredFormNames.isEmpty ? form.formName : filteredFormNames.first!.name
         
-        let uniqueId = koreanFormName.isEmpty ? "\(basic.id)_default" : "\(basic).id)_\(koreanFormName)"
+        let uniqueId = koreanFormName.isEmpty ? "i\(basic.id)f000n\(form.pokemon.name)" : "i\(basic.id)_f\(form.id)n\(form.pokemon.name)"
         
         // pokemon name in Korean
         let koreanName = species.names.filter { $0.language.name == "ko" }.first?.name ?? species.name
@@ -114,7 +114,7 @@ struct PokemonModel: Identifiable {
         let filteredFormNames = form.formNames.filter { $0.language.name == "ko" }
         let koreanFormName = filteredFormNames.isEmpty ? form.formName : filteredFormNames.first!.name
         
-        let uniqueId = "\(basic).id)_\(koreanFormName)"
+        let uniqueId = "i\(basic.id)_f\(form.id)n\(form.pokemon.name)"
 
         // pokemon genera in Korean
         let koFiltered = species.genera.filter { $0.language.name == "ko" }

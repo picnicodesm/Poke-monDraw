@@ -190,7 +190,7 @@ extension NetworkManager {
         var pokemonArr: [PokemonModel] = []
         
         // 변형일 경우의 정보
-        for (varity, form) in zip(varieties.sorted { $0.id < $1.id}, forms.sorted { $0.pokemon.url.extractId! < $1.pokemon.url.extractId! }) {
+        for (varity, form) in zip(varieties.sorted { $0.id < $1.id }, forms.sorted { $0.pokemon.url.extractId! < $1.pokemon.url.extractId! }) {
             let pokemon = PokemonModel(basic: basic, species: species, form: form, varity: varity
             )
             pokemonArr.append(pokemon)
