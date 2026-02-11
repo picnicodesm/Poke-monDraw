@@ -10,7 +10,7 @@ import SwiftData
 
 struct StoreView: View {
     // ✨ SwiftData에서 도감 번호 순으로 정렬하여 데이터 가져오기
-    @Query(sort: \MyPokemon.pokedexNumber) private var savedPokemons: [MyPokemon]
+    @Query(sort: \MyPokemon.id) private var savedPokemons: [MyPokemon]
     @State private var selectedPokemon: PokemonModel? // 모달용 (구조체로 변환하여 사용)
     
     private let columns: [GridItem] = [

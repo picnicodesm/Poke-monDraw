@@ -10,7 +10,7 @@ import Foundation
 
 nonisolated
 struct PokemonModel: Identifiable {
-    var id: String
+    var id: Int
     
     var pokedexNumber: Int
     var koreanName: String
@@ -28,10 +28,10 @@ struct PokemonModel: Identifiable {
     // 4. 한국어 텍스트 정보
     var types: [String]
     var flavorText: String
-
+    
     var formName: String
     
-    init(id: String,
+    init(id: Int,
          pokedexNumber: Int,
          koreanName: String,
          classification: String,
@@ -62,7 +62,7 @@ struct PokemonModel: Identifiable {
         let filteredFormNames = form.formNames.filter { $0.language.name == "ko" }
         let koreanFormName = filteredFormNames.isEmpty ? form.formName : filteredFormNames.first!.name
         
-        let uniqueId = koreanFormName.isEmpty ? "i\(basic.id)f000n\(form.pokemon.name)" : "i\(basic.id)f\(form.id)n\(form.pokemon.name)"
+        let uniqueId = basic.id * 10_000_000 + form.id
         
         // pokemon name in Korean
         let koreanName = species.names.filter { $0.language.name == "ko" }.first?.name ?? species.name
@@ -113,8 +113,8 @@ struct PokemonModel: Identifiable {
         let filteredFormNames = form.formNames.filter { $0.language.name == "ko" }
         let koreanFormName = filteredFormNames.isEmpty ? form.formName : filteredFormNames.first!.name
         
-        let uniqueId = "i\(basic.id)f\(form.id)n\(form.pokemon.name)"
-
+        let uniqueId = basic.id * 10_000_000 + form.id
+        
         // pokemon genera in Korean
         let koFiltered = species.genera.filter { $0.language.name == "ko" }
         let enFiltered = species.genera.filter { $0.language.name == "en" }
@@ -163,6 +163,6 @@ extension PokemonModel {
     var printString: String {
         return "id: \(id), name: \(koreanName), 성별: \(gender), height: \(height), weight: \(weight), formName: \(formName), types: \(types)"
     }
-
-    static let mock = [PokémonDraw.PokemonModel(id: "6_default", pokedexNumber: 6, koreanName: "리자몽", classification: "화염포켓몬", defaultSpriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png", officialArtworkUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png", height: 1.7, weight: 90.5, gender: "수컷 / 암컷", types: ["불꽃", "비행"], flavorText: "입에서 작렬하는 불꽃을\n토해낼 때 꼬리의 끝이\n더욱 붉고 격렬하게 타오른다.", formName: ""), PokémonDraw.PokemonModel(id: "6_gmax", pokedexNumber: 6, koreanName: "charizard-gmax", classification: "화염포켓몬", defaultSpriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10196.png", officialArtworkUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10196.png", height: 28.0, weight: 1000.0, gender: "수컷 / 암컷", types: ["불꽃", "비행"], flavorText: "입에서 작렬하는 불꽃을\n토해낼 때 꼬리의 끝이\n더욱 붉고 격렬하게 타오른다.", formName: "gmax"), PokémonDraw.PokemonModel(id: "6_메가리자몽Y", pokedexNumber: 6, koreanName: "charizard-mega-x", classification: "화염포켓몬", defaultSpriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10034.png", officialArtworkUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10034.png", height: 1.7, weight: 110.5, gender: "수컷 / 암컷", types: ["불꽃", "드래곤"], flavorText: "입에서 작렬하는 불꽃을\n토해낼 때 꼬리의 끝이\n더욱 붉고 격렬하게 타오른다.", formName: "메가리자몽Y"), PokémonDraw.PokemonModel(id: "6_메가리자몽X", pokedexNumber: 6, koreanName: "charizard-mega-y", classification: "화염포켓몬", defaultSpriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10035.png", officialArtworkUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10035.png", height: 1.7, weight: 100.5, gender: "수컷 / 암컷", types: ["불꽃", "비행"], flavorText: "입에서 작렬하는 불꽃을\n토해낼 때 꼬리의 끝이\n더욱 붉고 격렬하게 타오른다.", formName: "메가리자몽X")]
+    
+    static let mock = [PokémonDraw.PokemonModel(id: 3860000386, pokedexNumber: 386, koreanName: "테오키스", classification: "DNA포켓몬", defaultSpriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/386.png", officialArtworkUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/386.png", height: 1.7, weight: 60.8, gender: "불명", types: ["에스퍼"], flavorText: "운석에 붙어 있던\n우주 바이러스의 DNA가\n변이하여 생겨난 포켓몬이다.", formName: "노말폼"), PokémonDraw.PokemonModel(id: 3860010031, pokedexNumber: 386, koreanName: "deoxys-attack", classification: "DNA포켓몬", defaultSpriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10001.png", officialArtworkUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10001.png", height: 1.7, weight: 60.8, gender: "불명", types: ["에스퍼"], flavorText: "운석에 붙어 있던\n우주 바이러스의 DNA가\n변이하여 생겨난 포켓몬이다.", formName: "어택폼"), PokémonDraw.PokemonModel(id: 3860010032, pokedexNumber: 386, koreanName: "deoxys-defense", classification: "DNA포켓몬", defaultSpriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10002.png", officialArtworkUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10002.png", height: 1.7, weight: 60.8, gender: "불명", types: ["에스퍼"], flavorText: "운석에 붙어 있던\n우주 바이러스의 DNA가\n변이하여 생겨난 포켓몬이다.", formName: "디펜스폼"), PokémonDraw.PokemonModel(id: 3860010033, pokedexNumber: 386, koreanName: "deoxys-speed", classification: "DNA포켓몬", defaultSpriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10003.png", officialArtworkUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10003.png", height: 1.7, weight: 60.8, gender: "불명", types: ["에스퍼"], flavorText: "운석에 붙어 있던\n우주 바이러스의 DNA가\n변이하여 생겨난 포켓몬이다.", formName: "스피드폼")]
 }

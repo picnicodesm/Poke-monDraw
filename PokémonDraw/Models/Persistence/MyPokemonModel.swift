@@ -10,8 +10,8 @@ import SwiftData
 
 @Model
 final class MyPokemon {
-    // 1. 기본 식별 정보 (ex. "6_default", "6_mega-x", "351_sunny")
-    @Attribute(.unique) var id: String
+    // 1. 기본 식별 정보
+    @Attribute(.unique) var id: Int
     
     var pokedexNumber: Int
     var koreanName: String
@@ -33,7 +33,7 @@ final class MyPokemon {
     // 5. 멀티 폼 정보 (간단하게 이름과 이미지 URL 쌍으로 저장)
     var formName: String
     
-    init(id: String,
+    init(id: Int,
          pokedexNumber: Int,
          koreanName: String,
          classification: String,
