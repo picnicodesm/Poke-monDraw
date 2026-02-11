@@ -15,7 +15,7 @@ class NetworkManager {
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         
         let randomNumber = Int.random(in: 1...1025)
-        let pokemon = try await fetchPokemon(id: randomNumber)
+        let pokemon = try await fetchPokemon(id: 172)
         
         return pokemon
     }
@@ -71,7 +71,7 @@ extension NetworkManager {
         pokemonArr += self.createModel(with: (dto, speciesDto, formDtos))
         pokemonArr += self.createModel(basic: dto, species: speciesDto, forms: varityFormDtos, varieties: varietiesDtos)
         
-        return pokemonArr
+        return pokemonArr.sorted { $0.id < $1.id }
     }
     
     @concurrent
@@ -191,8 +191,7 @@ extension NetworkManager {
         
         // 변형일 경우의 정보
         for (varity, form) in zip(varieties.sorted { $0.id < $1.id }, forms.sorted { $0.pokemon.url.extractId! < $1.pokemon.url.extractId! }) {
-            let pokemon = PokemonModel(basic: basic, species: species, form: form, varity: varity
-            )
+            let pokemon = PokemonModel(basic: basic, species: species, form: form, varity: varity)
             pokemonArr.append(pokemon)
         }
         

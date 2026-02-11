@@ -28,8 +28,7 @@ struct PokemonModel: Identifiable {
     // 4. 한국어 텍스트 정보
     var types: [String]
     var flavorText: String
-    
-    // 5. 멀티 폼 정보 (간단하게 이름과 이미지 URL 쌍으로 저장)
+
     var formName: String
     
     init(id: String,
@@ -63,7 +62,7 @@ struct PokemonModel: Identifiable {
         let filteredFormNames = form.formNames.filter { $0.language.name == "ko" }
         let koreanFormName = filteredFormNames.isEmpty ? form.formName : filteredFormNames.first!.name
         
-        let uniqueId = koreanFormName.isEmpty ? "i\(basic.id)f000n\(form.pokemon.name)" : "i\(basic.id)_f\(form.id)n\(form.pokemon.name)"
+        let uniqueId = koreanFormName.isEmpty ? "i\(basic.id)f000n\(form.pokemon.name)" : "i\(basic.id)f\(form.id)n\(form.pokemon.name)"
         
         // pokemon name in Korean
         let koreanName = species.names.filter { $0.language.name == "ko" }.first?.name ?? species.name
@@ -114,7 +113,7 @@ struct PokemonModel: Identifiable {
         let filteredFormNames = form.formNames.filter { $0.language.name == "ko" }
         let koreanFormName = filteredFormNames.isEmpty ? form.formName : filteredFormNames.first!.name
         
-        let uniqueId = "i\(basic.id)_f\(form.id)n\(form.pokemon.name)"
+        let uniqueId = "i\(basic.id)f\(form.id)n\(form.pokemon.name)"
 
         // pokemon genera in Korean
         let koFiltered = species.genera.filter { $0.language.name == "ko" }

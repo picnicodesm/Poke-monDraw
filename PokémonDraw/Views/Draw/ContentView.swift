@@ -14,6 +14,7 @@ struct ContentView: View {
     @State private var isFetching = false
     @State private var showDetailModal = false
     @State private var isSaved = false
+    @State private var debugMode = false
     
     var body: some View {
         NavigationStack {
@@ -72,6 +73,14 @@ struct ContentView: View {
                     }
                     .disabled(isSaved) // 저장 후 비활성화
                 }
+                
+                if debugMode {
+                    Button {
+                        print(viewModel.pokemon)
+                    } label: {
+                        Text("뽑은 포켓몬 정보 출력")
+                    }
+                }
             }
             .padding()
             .navigationTitle("포켓몬 뽑기 🏀")
@@ -90,12 +99,12 @@ struct ContentView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink {
-                        PokedexView()
+                    Button {
+                        debugMode.toggle()
                     } label: {
-                        Image(systemName: "book.closed.fill")
+                        Image(systemName: "wrench.and.screwdriver.fill")
                             .font(.system(size: 20))
-                            .foregroundStyle(.blue)
+                            .foregroundStyle(debugMode ? .green : .blue)
                     }
                 }
                 
@@ -104,6 +113,16 @@ struct ContentView: View {
                         StoreView()
                     } label: {
                         Image(systemName: "archivebox.circle.fill")
+                            .font(.system(size: 20))
+                            .foregroundStyle(.blue)
+                    }
+                }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        PokedexView()
+                    } label: {
+                        Image(systemName: "book.closed.fill")
                             .font(.system(size: 20))
                             .foregroundStyle(.blue)
                     }
