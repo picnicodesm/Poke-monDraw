@@ -9,7 +9,8 @@ import Foundation
 
 
 // MARK: - pokemon/{id}
-struct PokemonBasicDTO: nonisolated Decodable {
+nonisolated
+struct PokemonBasicDTO: Decodable {
     
     let id: Int
     let name: String
@@ -44,7 +45,8 @@ struct PokemonBasicDTO: nonisolated Decodable {
 }
 
 // MARK: - pokemon-species/{id}
-struct PokemonSpeciesDTO: nonisolated Decodable {
+nonisolated
+struct PokemonSpeciesDTO: Decodable {
     
     let name: String
     let names: [NameDTO]
@@ -70,7 +72,8 @@ struct PokemonSpeciesDTO: nonisolated Decodable {
 }
 
 // MARK: - pokemon-form/{id}/
-struct FormDTO: nonisolated Decodable {
+nonisolated
+struct FormDTO: Decodable {
     
     let id: Int
     let pokemon: LinkDTO
@@ -85,12 +88,14 @@ struct FormDTO: nonisolated Decodable {
 
 
 // MARK: - Common DTO
+nonisolated
 struct NameDTO: Decodable {
     let name: String
     let language: LinkDTO
 }
 
 // 특정 정보에 대한 url을 담고 있는 DTO(예: species의 경우 name: "이상해씨", url: "species에 대한 url"
+nonisolated
 struct LinkDTO: Decodable {
     let name: String
     let url: String

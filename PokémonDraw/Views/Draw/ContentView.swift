@@ -75,10 +75,25 @@ struct ContentView: View {
                 }
                 
                 if debugMode {
-                    Button {
-                        print(viewModel.pokemon)
-                    } label: {
-                        Text("뽑은 포켓몬 정보 출력")
+                    HStack {
+                        Button {
+                            print(viewModel.pokemon)
+                        } label: {
+                            Text("뽑은 포켓몬 정보 출력")
+                        }
+                        .buttonStyle(.borderedProminent)
+                        
+                        Button {
+                            let vm = PokedexViewModel()
+                            Task {
+                                await vm.loadAllPokemons()
+                                print("end")
+                            }
+                        } label: {
+                            Text("전체 포켓몬 조회")
+                                .foregroundStyle(.green)
+                        }
+                        .buttonStyle(.borderedProminent)
                     }
                 }
             }
