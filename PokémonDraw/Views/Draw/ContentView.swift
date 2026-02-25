@@ -11,10 +11,10 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var viewModel = PokemonDrawViewModel()
-    @State private var isFetching = false
     @State private var showDetailModal = false
     @State private var isSaved = false
     @State private var debugMode = false
+    @State private var debugTask: Task<Void, Never>? = nil
     
     var body: some View {
         NavigationStack {
@@ -33,27 +33,19 @@ struct ContentView: View {
                 
                 // 뽑기 버튼
                 Button {
-                    Task {
-                        isFetching = true
-                        isSaved = false
-                        do {
-                            try await viewModel.fetchRandomPokemon()
-                        } catch {
-                            print("Error: \(error)")
-                        }
-                        isFetching = false
-                    }
+                    isSaved = false
+                    viewModel.fetchRandomPokemon()
                 } label: {
-                    Text(isFetching ? "포켓몬 찾는 중..." : "새로운 포켓몬 뽑기 🎲")
+                    Text(viewModel.isFetching ? "포켓몬 찾는 중..." : "새로운 포켓몬 뽑기 🎲")
                         .font(.headline)
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(isFetching ? .gray : .blue)
+                        .background(viewModel.isFetching ? .gray : .blue)
                         .cornerRadius(15)
                 }
-                .disabled(isFetching)
+                .disabled(viewModel.isFetching)
                 
                 if !viewModel.pokemon.isEmpty {
                     Button {
@@ -85,16 +77,27 @@ struct ContentView: View {
                         
                         Button {
                             let vm = PokedexViewModel()
-                            Task {
+                            debugTask?.cancel()
+                            
+                            debugTask =  Task {
                                 await vm.loadAllPokemons()
-                                print("end")
+                                
+                                debugTask = nil
                             }
                         } label: {
                             Text("전체 포켓몬 조회")
+                        }
+                        .buttonStyle(.borderedProminent)
+                        
+                        Button {
+                            debugTask?.cancel()
+                        } label: {
+                            Text("전체 포켓몬 조회 취소")
                                 .foregroundStyle(.green)
                         }
                         .buttonStyle(.borderedProminent)
                     }
+                    .frame(height: 100)
                 }
             }
             .padding()

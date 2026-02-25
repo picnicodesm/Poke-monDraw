@@ -13,7 +13,11 @@ class PokedexViewModel {
     var allPokemons: [PokemonModel] = []
     var isLoading = false
     
-    func loadAllPokemons() async {
+    deinit {
+        print("deinited")
+    }
+    
+    func loadAllPokemons() async  {
         guard allPokemons.isEmpty else { return } // 이미 로드했으면 생략
         
         isLoading = true
@@ -29,7 +33,7 @@ class PokedexViewModel {
                 return $0.pokedexNumber < $1.pokedexNumber
             }
         } catch {
-            print("도감 로딩 실패: \(error)")
+            print(error)
         }
     }
 }

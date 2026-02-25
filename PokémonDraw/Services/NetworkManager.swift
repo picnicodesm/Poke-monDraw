@@ -11,9 +11,6 @@ class NetworkManager {
     
     @concurrent
     func fetchRandomPokemon() async throws -> [PokemonModel] {
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        
         let randomNumber = Int.random(in: 1...1025)
         let pokemon = try await fetchPokemon(id: randomNumber)
         
@@ -23,18 +20,18 @@ class NetworkManager {
     @concurrent
     func fetchAllPokemons() async throws -> [PokemonModel] {
         var results: [PokemonModel] = []
-        
         let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
         
         try await withThrowingTaskGroup(of: [PokemonModel].self) { group in
             for i in 1...1025 {
                 group.addTask { [self] in
-                    return try await fetchPokemon(id: i)
+                    try Task.checkCancellation()
+                    return try await fetchPokemon(id: i, decoder: decoder)
                 }
             }
             
             for try await pokemonArr in group {
+                try Task.checkCancellation()
                 results += pokemonArr
             }
         }
@@ -46,30 +43,33 @@ class NetworkManager {
 extension NetworkManager {
     
     @concurrent
-    private func fetchPokemon(id: Int) async throws -> [PokemonModel] {
-        let decoder = JSONDecoder()
+    private func fetchPokemon(id: Int, decoder: JSONDecoder = JSONDecoder()) async throws -> [PokemonModel] {
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         
+        try Task.checkCancellation()
         // 1. default url에서 PokemonBasicDTO 얻기
         let dto = try await self.fetchPokemon(for: id, decoder: decoder)
         
         // 2. species url에서 PokemonSpeciesDTO 얻기
         let speciesDto = try await self.fetchPokemonSpecies(from: dto.species.url, decoder: decoder)
         
+        
+        try Task.checkCancellation()
         // 3. 폼에 대한 정보 얻기
-        let formDtos = try await self.fetchForms(from: dto.forms.map { $0.url }, decoder: decoder)
+        async let formDtos = self.fetchForms(from: dto.forms.map { $0.url }, decoder: decoder)
         
         // 4. species의 isDefault가 false인게 있다면 해당 변형에 대해 얻기
         let nonDefaultVarieties = speciesDto.varieties.filter { !$0.isDefault }
-        let varietiesDtos = try await self.fetchVarieties(from: nonDefaultVarieties, decoder: decoder)
+        async let varietiesDtos = self.fetchVarieties(from: nonDefaultVarieties, decoder: decoder)
         
+        try Task.checkCancellation()
         // 5. 변형별 폼 정보 얻기
-        let varityFormDtos = try await self.fetchForms(from: varietiesDtos, decoder: decoder)
+        let varityFormDtos = try await self.fetchForms(from: try await varietiesDtos, decoder: decoder)
         
         // 리턴할 정보
         var pokemonArr: [PokemonModel] = []
-        pokemonArr += self.createModel(with: (dto, speciesDto, formDtos))
-        pokemonArr += self.createModel(basic: dto, species: speciesDto, forms: varityFormDtos, varieties: varietiesDtos)
+        pokemonArr += self.createModel(with: (dto, speciesDto, try await formDtos))
+        pokemonArr += self.createModel(basic: dto, species: speciesDto, forms: varityFormDtos, varieties: try await varietiesDtos)
         
         return pokemonArr.sorted { $0.id < $1.id }
     }
@@ -77,7 +77,6 @@ extension NetworkManager {
     @concurrent
     private func fetchPokemon(for id: Int, decoder: JSONDecoder) async throws ->  PokemonBasicDTO {
         let url = URL(string: "https://pokeapi.co/api/v2/pokemon/\(id)/")!
-        
         let (data, _) = try await URLSession.shared.data(from: url)
         let dto = try decoder.decode(PokemonBasicDTO.self, from: data)
         
@@ -101,7 +100,6 @@ extension NetworkManager {
             for formUrlString in urlStrings {
                 group.addTask {
                     let formUrl = URL(string: formUrlString)!
-                    
                     let (data, _) = try await URLSession.shared.data(from: formUrl)
                     let formDto = try decoder.decode(FormDTO.self, from: data)
                     
@@ -132,7 +130,6 @@ extension NetworkManager {
                 group.addTask {
                     let formUrl = URL(string: formUrlString)!
                     let (data, _) = try await URLSession.shared.data(from: formUrl)
-                    
                     let formDto = try decoder.decode(FormDTO.self, from: data)
                     
                     return formDto
@@ -157,7 +154,6 @@ extension NetworkManager {
             for varity in varieties {
                 group.addTask {
                     let pokemonUrl = URL(string: varity.pokemon.url)!
-                    
                     let (data, _) = try await URLSession.shared.data(from: pokemonUrl)
                     let pokemonDto = try decoder.decode(PokemonBasicDTO.self, from: data)
                     
