@@ -7,7 +7,10 @@
 
 import Foundation
 
-class NetworkManager {
+actor NetworkManager {
+    static let shared = NetworkManager()
+
+    private init() { }
     
     @concurrent
     func fetchRandomPokemon() async throws -> [PokemonModel] {
@@ -24,9 +27,9 @@ class NetworkManager {
         
         try await withThrowingTaskGroup(of: [PokemonModel].self) { group in
             for i in 1...1025 {
-                group.addTask { [self] in
+                group.addTask {
                     try Task.checkCancellation()
-                    return try await fetchPokemon(id: i, decoder: decoder)
+                    return try await self.fetchPokemon(id: i, decoder: decoder)
                 }
             }
             

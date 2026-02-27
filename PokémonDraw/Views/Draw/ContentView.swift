@@ -34,7 +34,9 @@ struct ContentView: View {
                 // 뽑기 버튼
                 Button {
                     isSaved = false
-                    viewModel.fetchRandomPokemon()
+                    Task {
+                        await viewModel.fetchRandomPokemon()
+                    }
                 } label: {
                     Text(viewModel.isFetching ? "포켓몬 찾는 중..." : "새로운 포켓몬 뽑기 🎲")
                         .font(.headline)
@@ -93,7 +95,6 @@ struct ContentView: View {
                             debugTask?.cancel()
                         } label: {
                             Text("전체 포켓몬 조회 취소")
-                                .foregroundStyle(.green)
                         }
                         .buttonStyle(.borderedProminent)
                     }

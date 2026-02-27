@@ -9,7 +9,6 @@ import Foundation
 
 @Observable
 class PokedexViewModel {
-    private let networkManager = NetworkManager()
     var allPokemons: [PokemonModel] = []
     var isLoading = false
     
@@ -24,7 +23,7 @@ class PokedexViewModel {
         defer { isLoading = false }
         
         do {
-            let fetchedPokemons = try await networkManager.fetchAllPokemons()
+            let fetchedPokemons = try await NetworkManager.shared.fetchAllPokemons()
             // 도감 번호 순으로 정렬, 번호가 같으면(변형 등) ID 순으로 정렬하여 일관성 유지
             self.allPokemons = fetchedPokemons.sorted {
                 if $0.pokedexNumber == $1.pokedexNumber {
