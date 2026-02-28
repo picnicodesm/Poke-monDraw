@@ -27,9 +27,6 @@ struct PokedexView: View {
                     LazyVGrid(columns: columns, spacing: 15) {
                         ForEach(viewModel.allPokemons, id: \.id) { pokemon in
                             PokedexCell(pokemon: pokemon)
-                                .task {
-                                    checkIfNeedToLoadMore(currentPokemon: pokemon)
-                                }
                                 .onTapGesture {
                                     selectedPokemon = pokemon
                                 }
@@ -46,7 +43,7 @@ struct PokedexView: View {
         .navigationTitle("포켓몬 도감 📖")
         .task {
             if viewModel.allPokemons.isEmpty {
-                await viewModel.loadMorePokemons()
+                await viewModel.loadAllPokemons()
             }
         }
         .sheet(item: $selectedPokemon) { pokemon in
@@ -62,16 +59,6 @@ struct PokedexView: View {
         VStack {
             ProgressView("도감 로드중...")
                 .padding(.top, 50)
-        }
-    }
-    
-    private func checkIfNeedToLoadMore(currentPokemon: PokemonModel) {
-        guard let lastPokemon = viewModel.allPokemons.last else { return }
-        
-        if currentPokemon.id == lastPokemon.id {
-            Task {
-                await viewModel.loadMorePokemons()
-            }
         }
     }
 }

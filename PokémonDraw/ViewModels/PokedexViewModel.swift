@@ -13,55 +13,38 @@ class PokedexViewModel {
     var isLoading = false
     
     private var currentOffset: Int = 1
-    private let limit: Int = 20
+    private let batchSize: Int = 20
     private let maxPokedexNumber: Int = 1025
     
     deinit {
         print("deinited")
     }
     
-    func loadMorePokemons() async {
-        guard !isLoading, currentOffset <= maxPokedexNumber else { return }
+    func loadAllPokemons() async  {
+        guard allPokemons.isEmpty else { return } // 이미 로드했으면 생략
         
         isLoading = true
         defer { isLoading = false }
         
-        let startId = currentOffset
-        let endId = min(currentOffset + limit - 1, maxPokedexNumber)
-        
-        do {
-            var newPokemon = try await NetworkManager.shared.fetchPokemonBatch(from: startId, to: endId)
-            newPokemon = newPokemon.sorted {
-                if $0.pokedexNumber == $1.pokedexNumber {
-                    return $0.id < $1.id
-                }
-                return $0.pokedexNumber < $1.pokedexNumber
-            }
+        for currentId in stride(from: 1, through: maxPokedexNumber, by: batchSize) {
+            let endId = min(currentId + batchSize - 1, maxPokedexNumber)
             
-            allPokemons.append(contentsOf: newPokemon)
-            currentOffset = endId + 1
-        } catch {
-            print(error)
+            do {
+                // 백그라운드(NetworkManager)에서 20개 가져오기
+                let newPokemons = try await NetworkManager.shared.fetchPokemonBatch(from: currentId, to: endId)
+                let sortedNewPokemons = newPokemons.sorted {
+                    if $0.pokedexNumber == $1.pokedexNumber {
+                        return $0.id < $1.id
+                    }
+                    return $0.pokedexNumber < $1.pokedexNumber
+                }
+                
+                self.allPokemons.append(contentsOf: sortedNewPokemons)
+                
+            } catch {
+                print("포켓몬 로딩 에러: \(error.localizedDescription)")
+            }
         }
+        
     }
-    
-//    func loadAllPokemons() async  {
-//        guard allPokemons.isEmpty else { return } // 이미 로드했으면 생략
-//        
-//        isLoading = true
-//        defer { isLoading = false }
-//        
-//        do {
-//            let fetchedPokemons = try await NetworkManager.shared.fetchAllPokemons()
-//            // 도감 번호 순으로 정렬, 번호가 같으면(변형 등) ID 순으로 정렬하여 일관성 유지
-//            self.allPokemons = fetchedPokemons.sorted {
-//                if $0.pokedexNumber == $1.pokedexNumber {
-//                    return $0.id < $1.id
-//                }
-//                return $0.pokedexNumber < $1.pokedexNumber
-//            }
-//        } catch {
-//            print(error)
-//        }
-//    }
 }
