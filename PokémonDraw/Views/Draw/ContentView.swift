@@ -82,7 +82,7 @@ struct ContentView: View {
                             debugTask?.cancel()
                             
                             debugTask =  Task {
-                                await vm.loadAllPokemons()
+                                await vm.loadMorePokemons()
                                 
                                 debugTask = nil
                             }

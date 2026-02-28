@@ -20,29 +20,34 @@ struct PokedexView: View {
     
     var body: some View {
         ScrollView {
-            if viewModel.isLoading {
-                VStack {
-                    ProgressView("도감 로드중...")
-                        .padding(.top, 50)
-                    Text("데이터 양이 많아 시간이 걸릴 수 있습니다.")
-                        .font(.caption)
-                        .foregroundStyle(.gray)
-                }
+            if viewModel.allPokemons.isEmpty {
+                loadingView
             } else {
-                LazyVGrid(columns: columns, spacing: 15) {
-                    ForEach(viewModel.allPokemons, id: \.id) { pokemon in
-                        PokedexCell(pokemon: pokemon)
-                            .onTapGesture {
-                                selectedPokemon = pokemon
-                            }
+                VStack {
+                    LazyVGrid(columns: columns, spacing: 15) {
+                        ForEach(viewModel.allPokemons, id: \.id) { pokemon in
+                            PokedexCell(pokemon: pokemon)
+                                .task {
+                                    checkIfNeedToLoadMore(currentPokemon: pokemon)
+                                }
+                                .onTapGesture {
+                                    selectedPokemon = pokemon
+                                }
+                        }
+                    }
+                    .padding()
+                    
+                    if viewModel.isLoading {
+                        loadingView
                     }
                 }
-                .padding()
             }
         }
         .navigationTitle("포켓몬 도감 📖")
         .task {
-            await viewModel.loadAllPokemons()
+            if viewModel.allPokemons.isEmpty {
+                await viewModel.loadMorePokemons()
+            }
         }
         .sheet(item: $selectedPokemon) { pokemon in
             VStack {
@@ -50,6 +55,23 @@ struct PokedexView: View {
             }
             .presentationDetents([.medium, .large])
             .presentationDragIndicator(.visible)
+        }
+    }
+    
+    private var loadingView: some View {
+        VStack {
+            ProgressView("도감 로드중...")
+                .padding(.top, 50)
+        }
+    }
+    
+    private func checkIfNeedToLoadMore(currentPokemon: PokemonModel) {
+        guard let lastPokemon = viewModel.allPokemons.last else { return }
+        
+        if currentPokemon.id == lastPokemon.id {
+            Task {
+                await viewModel.loadMorePokemons()
+            }
         }
     }
 }

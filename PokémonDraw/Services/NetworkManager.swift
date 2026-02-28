@@ -21,15 +21,17 @@ actor NetworkManager {
     }
     
     @concurrent
-    func fetchAllPokemons() async throws -> [PokemonModel] {
+    func fetchPokemonBatch(from startId: Int, to endId: Int) async throws -> [PokemonModel] {
         var results: [PokemonModel] = []
         let decoder = JSONDecoder()
         
         try await withThrowingTaskGroup(of: [PokemonModel].self) { group in
-            for i in 1...1025 {
+            for id in startId...endId {
+                guard id <= 1025 else { continue }
+                
                 group.addTask {
                     try Task.checkCancellation()
-                    return try await self.fetchPokemon(id: i, decoder: decoder)
+                    return try await self.fetchPokemon(id: id, decoder: decoder)
                 }
             }
             
