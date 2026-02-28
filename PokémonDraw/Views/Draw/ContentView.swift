@@ -13,8 +13,10 @@ struct ContentView: View {
     @State private var viewModel = PokemonDrawViewModel()
     @State private var showDetailModal = false
     @State private var isSaved = false
-    @State private var debugMode = false
+    
+#if DEBUG
     @State private var debugTask: Task<Void, Never>? = nil
+#endif
     
     var body: some View {
         NavigationStack {
@@ -68,38 +70,38 @@ struct ContentView: View {
                     .disabled(isSaved) // 저장 후 비활성화
                 }
                 
-                if debugMode {
-                    HStack {
-                        Button {
-                            print(viewModel.pokemon)
-                        } label: {
-                            Text("뽑은 포켓몬 정보 출력")
-                        }
-                        .buttonStyle(.borderedProminent)
-                        
-                        Button {
-                            let vm = PokedexViewModel()
-                            debugTask?.cancel()
-                            
-                            debugTask =  Task {
-                                await vm.loadMorePokemons()
-                                
-                                debugTask = nil
-                            }
-                        } label: {
-                            Text("전체 포켓몬 조회")
-                        }
-                        .buttonStyle(.borderedProminent)
-                        
-                        Button {
-                            debugTask?.cancel()
-                        } label: {
-                            Text("전체 포켓몬 조회 취소")
-                        }
-                        .buttonStyle(.borderedProminent)
+#if DEBUG
+                HStack {
+                    Button {
+                        print(viewModel.pokemon)
+                    } label: {
+                        Text("뽑은 포켓몬 정보 출력")
                     }
-                    .frame(height: 100)
+                    .buttonStyle(.borderedProminent)
+                    
+                    Button {
+                        let vm = PokedexViewModel()
+                        debugTask?.cancel()
+                        
+                        debugTask =  Task {
+                            await vm.loadMorePokemons()
+                            
+                            debugTask = nil
+                        }
+                    } label: {
+                        Text("전체 포켓몬 조회")
+                    }
+                    .buttonStyle(.borderedProminent)
+                    
+                    Button {
+                        debugTask?.cancel()
+                    } label: {
+                        Text("전체 포켓몬 조회 취소")
+                    }
+                    .buttonStyle(.borderedProminent)
                 }
+                .frame(height: 100)
+#endif
             }
             .padding()
             .navigationTitle("포켓몬 뽑기 🏀")
@@ -117,16 +119,6 @@ struct ContentView: View {
                 .presentationDragIndicator(.visible)
             }
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        debugMode.toggle()
-                    } label: {
-                        Image(systemName: "wrench.and.screwdriver.fill")
-                            .font(.system(size: 20))
-                            .foregroundStyle(debugMode ? .green : .blue)
-                    }
-                }
-                
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
                         StoreView()

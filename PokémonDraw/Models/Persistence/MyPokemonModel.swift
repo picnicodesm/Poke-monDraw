@@ -30,7 +30,7 @@ final class MyPokemon {
     var types: [String]
     var flavorText: String
     
-    // 5. 멀티 폼 정보 (간단하게 이름과 이미지 URL 쌍으로 저장)
+    // 5. 멀티 폼 정보
     var formName: String
     
     init(id: Int,
