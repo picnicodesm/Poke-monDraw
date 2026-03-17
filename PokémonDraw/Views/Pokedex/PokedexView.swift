@@ -42,9 +42,7 @@ struct PokedexView: View {
         }
         .navigationTitle("포켓몬 도감 📖")
         .task {
-            if viewModel.allPokemons.isEmpty {
-                await viewModel.loadAllPokemons()
-            }
+            await viewModel.loadAllPokemons()
         }
         .sheet(item: $selectedPokemon) { pokemon in
             VStack {

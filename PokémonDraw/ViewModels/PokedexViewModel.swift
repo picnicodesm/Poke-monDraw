@@ -21,12 +21,19 @@ class PokedexViewModel {
     }
     
     func loadAllPokemons() async  {
-        guard allPokemons.isEmpty else { return } 
+        
+        guard currentOffset <= maxPokedexNumber else { return }
+        guard !isLoading else { return }
         
         isLoading = true
         defer { isLoading = false }
         
-        for currentId in stride(from: 1, through: maxPokedexNumber, by: batchSize) {
+        for currentId in stride(from: currentOffset, through: maxPokedexNumber, by: batchSize) {
+            guard !Task.isCancelled else {
+                currentOffset = currentId // 멈춘 곳 저장
+                return
+            }
+            
             let endId = min(currentId + batchSize - 1, maxPokedexNumber)
             
             do {
@@ -39,8 +46,13 @@ class PokedexViewModel {
                 }
                 
                 self.allPokemons.append(contentsOf: sortedNewPokemons)
+                currentOffset = currentId + batchSize // 성공했을 때 업데이트
                 
-            } catch {
+            } catch is CancellationError {
+                currentOffset = currentId // 멈춘 곳 저장
+                return
+            }
+            catch {
                 print("포켓몬 로딩 에러: \(error.localizedDescription)")
             }
         }
