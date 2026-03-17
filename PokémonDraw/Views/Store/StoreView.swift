@@ -78,7 +78,7 @@ struct StoreView: View {
         }
         .sheet(item: $selectedPokemon) { pokemon in
             VStack {
-                PokemonDetailCard(pokemon: pokemon)
+                PokemonDetailCard(pokemon: pokemon, useCache: true)
             }
             .presentationDetents([.medium, .large])
             .presentationDragIndicator(.visible)
@@ -110,25 +110,12 @@ struct StoreCell: View {
     var body: some View {
         VStack(spacing: 8) {
             // 이미지 영역
-            AsyncImage(url: URL(string: pokemon.defaultSpriteUrl)) { phase in
-                if let image = phase.image {
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                } else if phase.error != nil {
-                    Image(systemName: "questionmark.circle")
-                        .font(.largeTitle)
-                        .foregroundStyle(.gray.opacity(0.3))
-                } else {
-                    ProgressView()
-                        .scaleEffect(0.5)
-                }
-            }
-            .frame(height: 80)
-            .background(
-                Circle()
-                    .fill(Color.gray.opacity(0.1))
-            )
+            PokemonImageView(urlString: pokemon.defaultSpriteUrl)
+                .frame(height: 80)
+                .background(
+                    Circle()
+                        .fill(Color.gray.opacity(0.1))
+                )
             
             // 정보 영역
             VStack(spacing: 2) {

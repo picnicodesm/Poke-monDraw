@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 actor NetworkManager {
     static let shared = NetworkManager()
@@ -43,6 +44,28 @@ actor NetworkManager {
         
         return results
     }
+    
+    @concurrent
+    func fetchImage(from urlString: String) async throws -> UIImage? {
+            guard let url = URL(string: urlString) else { return nil }
+            
+            if let cachedImage = await ImageCache.shared.image(for: url) {
+                return cachedImage
+            }
+            
+            try Task.checkCancellation()
+            let (data, response) = try await URLSession.shared.data(from: url)
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  httpResponse.statusCode == 200,
+                  let image = UIImage(data: data) else {
+                return nil
+            }
+            
+            await ImageCache.shared.insert(image, for: url)
+            
+            return image
+        }
 }
 
 extension NetworkManager {

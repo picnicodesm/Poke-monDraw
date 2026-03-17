@@ -21,7 +21,7 @@ class PokedexViewModel {
     }
     
     func loadAllPokemons() async  {
-        guard allPokemons.isEmpty else { return } // 이미 로드했으면 생략
+        guard allPokemons.isEmpty else { return } 
         
         isLoading = true
         defer { isLoading = false }
@@ -30,7 +30,6 @@ class PokedexViewModel {
             let endId = min(currentId + batchSize - 1, maxPokedexNumber)
             
             do {
-                // 백그라운드(NetworkManager)에서 20개 가져오기
                 let newPokemons = try await NetworkManager.shared.fetchPokemonBatch(from: currentId, to: endId)
                 let sortedNewPokemons = newPokemons.sorted {
                     if $0.pokedexNumber == $1.pokedexNumber {

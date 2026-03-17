@@ -13,6 +13,7 @@ struct ContentView: View {
     @State private var viewModel = PokemonDrawViewModel()
     @State private var showDetailModal = false
     @State private var isSaved = false
+    @State private var pokedexViewModel = PokedexViewModel()
     
 #if DEBUG
     @State private var debugTask: Task<Void, Never>? = nil
@@ -84,7 +85,7 @@ struct ContentView: View {
                         debugTask?.cancel()
                         
                         debugTask =  Task {
-                            await vm.loadMorePokemons()
+                            await vm.loadAllPokemons()
                             
                             debugTask = nil
                         }
@@ -109,7 +110,7 @@ struct ContentView: View {
                 VStack {
                     TabView {
                         ForEach(viewModel.pokemon, id: \.id) { pokemon in
-                            PokemonDetailCard(pokemon: pokemon)
+                            PokemonDetailCard(pokemon: pokemon, useCache: false)
                         }
                     }
                     .tabViewStyle(.page(indexDisplayMode: .always))
@@ -131,7 +132,7 @@ struct ContentView: View {
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
-                        PokedexView()
+                        PokedexView(viewModel: $pokedexViewModel)
                     } label: {
                         Image(systemName: "book.closed.fill")
                             .font(.system(size: 20))
@@ -143,7 +144,7 @@ struct ContentView: View {
     }
     
     @ViewBuilder
-    var mainCardView: some View {
+    private var mainCardView: some View {
         if let mainPokemon = viewModel.pokemon.first {
             VStack(spacing: 20) {
                 AsyncImage(url: URL(string: mainPokemon.defaultSpriteUrl)) { image in

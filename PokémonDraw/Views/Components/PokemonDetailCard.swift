@@ -9,27 +9,34 @@ import SwiftUI
 
 struct PokemonDetailCard: View {
     let pokemon: PokemonModel
+    let useCache: Bool
     
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                // 1. 고화질 아트워크
-                AsyncImage(url: URL(string: pokemon.officialArtworkUrl)) { phase in
-                    if let image = phase.image {
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .shadow(radius: 10)
-                    } else if phase.error != nil {
-                        Image(systemName: "photo")
-                            .font(.largeTitle)
-                            .foregroundStyle(.gray)
-                    } else {
-                        ProgressView()
+                if useCache {
+                    PokemonImageView(urlString: pokemon.officialArtworkUrl)
+                        .shadow(radius: 10)
+                        .frame(height: 250)
+                        .padding(.top)
+                } else {
+                    AsyncImage(url: URL(string: pokemon.officialArtworkUrl)) { phase in
+                        if let image = phase.image {
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .shadow(radius: 10)
+                        } else if phase.error != nil {
+                            Image(systemName: "photo")
+                                .font(.largeTitle)
+                                .foregroundStyle(.gray)
+                        } else {
+                            ProgressView()
+                        }
                     }
+                    .frame(height: 250)
+                    .padding(.top)
                 }
-                .frame(height: 250)
-                .padding(.top)
                 
                 // 2. 기본 정보 섹션
                 VStack(spacing: 8) {
@@ -83,6 +90,15 @@ struct PokemonDetailCard: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(Color.gray.opacity(0.1))
                 .cornerRadius(12)
+                
+                #if DEBUG
+                Button {
+                    print(pokemon)
+                } label: {
+                    Text("[DEBUG] 현재 포켓몬 데이터 출력")
+                }
+                .buttonStyle(.borderedProminent)
+                #endif
             }
             .padding()
         }
@@ -107,5 +123,5 @@ struct StatItem: View {
 }
 
 #Preview {
-    PokemonDetailCard(pokemon: PokemonModel.mock[2])
+    PokemonDetailCard(pokemon: PokemonModel.mock[2], useCache: false)
 }
